@@ -7,14 +7,20 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE4EE0392C61DD1A00B9AB61 /* DottedBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4EE0382C61DD1A00B9AB61 /* DottedBackgroundView.swift */; };
 		CE6C915D2C61A3FA000A68EF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C915C2C61A3FA000A68EF /* HomeView.swift */; };
+		CE6C915F2C61A565000A68EF /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C915E2C61A565000A68EF /* CanvasView.swift */; };
+		CE6C91612C61A878000A68EF /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C91602C61A878000A68EF /* DrawingView.swift */; };
 		CEBA08982C6180FC00B60A33 /* ScribitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBA08972C6180FC00B60A33 /* ScribitApp.swift */; };
 		CEBA089C2C6180FF00B60A33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBA089B2C6180FF00B60A33 /* Assets.xcassets */; };
 		CEBA089F2C6180FF00B60A33 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBA089E2C6180FF00B60A33 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE4EE0382C61DD1A00B9AB61 /* DottedBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DottedBackgroundView.swift; sourceTree = "<group>"; };
 		CE6C915C2C61A3FA000A68EF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		CE6C915E2C61A565000A68EF /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
+		CE6C91602C61A878000A68EF /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
 		CEBA08942C6180FC00B60A33 /* Scribit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scribit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBA08972C6180FC00B60A33 /* ScribitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribitApp.swift; sourceTree = "<group>"; };
 		CEBA089B2C6180FF00B60A33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -81,6 +87,9 @@
 		CE6C91452C61A348000A68EF /* View */ = {
 			isa = PBXGroup;
 			children = (
+				CE6C915E2C61A565000A68EF /* CanvasView.swift */,
+				CE6C91602C61A878000A68EF /* DrawingView.swift */,
+				CE4EE0382C61DD1A00B9AB61 /* DottedBackgroundView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -171,6 +180,8 @@
 			dependencies = (
 			);
 			name = Scribit;
+			packageProductDependencies = (
+			);
 			productName = Scribit;
 			productReference = CEBA08942C6180FC00B60A33 /* Scribit.app */;
 			productType = "com.apple.product-type.application";
@@ -199,6 +210,8 @@
 				Base,
 			);
 			mainGroup = CEBA088B2C6180FC00B60A33;
+			packageReferences = (
+			);
 			productRefGroup = CEBA08952C6180FC00B60A33 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -227,6 +240,9 @@
 			files = (
 				CEBA08982C6180FC00B60A33 /* ScribitApp.swift in Sources */,
 				CE6C915D2C61A3FA000A68EF /* HomeView.swift in Sources */,
+				CE6C915F2C61A565000A68EF /* CanvasView.swift in Sources */,
+				CE4EE0392C61DD1A00B9AB61 /* DottedBackgroundView.swift in Sources */,
+				CE6C91612C61A878000A68EF /* DrawingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
