@@ -7,16 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE6C915D2C61A3FA000A68EF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C915C2C61A3FA000A68EF /* HomeView.swift */; };
 		CEBA08982C6180FC00B60A33 /* ScribitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBA08972C6180FC00B60A33 /* ScribitApp.swift */; };
-		CEBA089A2C6180FC00B60A33 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBA08992C6180FC00B60A33 /* ContentView.swift */; };
 		CEBA089C2C6180FF00B60A33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBA089B2C6180FF00B60A33 /* Assets.xcassets */; };
 		CEBA089F2C6180FF00B60A33 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBA089E2C6180FF00B60A33 /* Preview Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CE6C915C2C61A3FA000A68EF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CEBA08942C6180FC00B60A33 /* Scribit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scribit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBA08972C6180FC00B60A33 /* ScribitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribitApp.swift; sourceTree = "<group>"; };
-		CEBA08992C6180FC00B60A33 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CEBA089B2C6180FF00B60A33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEBA089E2C6180FF00B60A33 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -32,6 +32,93 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CE6C91312C61A348000A68EF /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		CE6C91342C61A348000A68EF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				CEBA08972C6180FC00B60A33 /* ScribitApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		CE6C91372C61A348000A68EF /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		CE6C913E2C61A348000A68EF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CE6C915C2C61A3FA000A68EF /* HomeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CE6C91402C61A348000A68EF /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		CE6C91412C61A348000A68EF /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				CE6C913E2C61A348000A68EF /* View */,
+				CE6C91402C61A348000A68EF /* View Model */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		CE6C91452C61A348000A68EF /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		CE6C91472C61A348000A68EF /* View Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "View Model";
+			sourceTree = "<group>";
+		};
+		CE6C91482C61A348000A68EF /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				CE6C91452C61A348000A68EF /* View */,
+				CE6C91472C61A348000A68EF /* View Model */,
+			);
+			path = Canvas;
+			sourceTree = "<group>";
+		};
+		CE6C914B2C61A348000A68EF /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				CE6C91412C61A348000A68EF /* Home */,
+				CE6C91482C61A348000A68EF /* Canvas */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		CE6C914C2C61A348000A68EF /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				CE6C914B2C61A348000A68EF /* Features */,
+				CE6C91372C61A348000A68EF /* Components */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
 		CEBA088B2C6180FC00B60A33 = {
 			isa = PBXGroup;
 			children = (
@@ -51,8 +138,9 @@
 		CEBA08962C6180FC00B60A33 /* Scribit */ = {
 			isa = PBXGroup;
 			children = (
-				CEBA08972C6180FC00B60A33 /* ScribitApp.swift */,
-				CEBA08992C6180FC00B60A33 /* ContentView.swift */,
+				CE6C91342C61A348000A68EF /* App */,
+				CE6C914C2C61A348000A68EF /* Core */,
+				CE6C91312C61A348000A68EF /* Utilities */,
 				CEBA089B2C6180FF00B60A33 /* Assets.xcassets */,
 				CEBA089D2C6180FF00B60A33 /* Preview Content */,
 			);
@@ -137,8 +225,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEBA089A2C6180FC00B60A33 /* ContentView.swift in Sources */,
 				CEBA08982C6180FC00B60A33 /* ScribitApp.swift in Sources */,
+				CE6C915D2C61A3FA000A68EF /* HomeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
