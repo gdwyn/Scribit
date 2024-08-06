@@ -35,8 +35,7 @@ struct DottedBackgroundView: View {
                 .fill(dotColor)
             }
             .clipped()
-            .edgesIgnoringSafeArea(.all) // Ensure it covers the entire drawing area
-            
+            .edgesIgnoringSafeArea(.all) 
             
         }
     }
