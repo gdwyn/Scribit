@@ -11,6 +11,9 @@
 		CE6C915D2C61A3FA000A68EF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C915C2C61A3FA000A68EF /* HomeView.swift */; };
 		CE6C915F2C61A565000A68EF /* CanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C915E2C61A565000A68EF /* CanvasView.swift */; };
 		CE6C91612C61A878000A68EF /* DrawingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE6C91602C61A878000A68EF /* DrawingView.swift */; };
+		CEB7E9D52C62893F00B92530 /* CanvasToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9D42C62893F00B92530 /* CanvasToolBar.swift */; };
+		CEB7E9D72C62897A00B92530 /* CanvasViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9D62C62897A00B92530 /* CanvasViewModel.swift */; };
+		CEB7E9DB2C628CFA00B92530 /* ToolPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB7E9DA2C628CFA00B92530 /* ToolPickerView.swift */; };
 		CEBA08982C6180FC00B60A33 /* ScribitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBA08972C6180FC00B60A33 /* ScribitApp.swift */; };
 		CEBA089C2C6180FF00B60A33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBA089B2C6180FF00B60A33 /* Assets.xcassets */; };
 		CEBA089F2C6180FF00B60A33 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBA089E2C6180FF00B60A33 /* Preview Assets.xcassets */; };
@@ -21,6 +24,9 @@
 		CE6C915C2C61A3FA000A68EF /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		CE6C915E2C61A565000A68EF /* CanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasView.swift; sourceTree = "<group>"; };
 		CE6C91602C61A878000A68EF /* DrawingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawingView.swift; sourceTree = "<group>"; };
+		CEB7E9D42C62893F00B92530 /* CanvasToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasToolBar.swift; sourceTree = "<group>"; };
+		CEB7E9D62C62897A00B92530 /* CanvasViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasViewModel.swift; sourceTree = "<group>"; };
+		CEB7E9DA2C628CFA00B92530 /* ToolPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolPickerView.swift; sourceTree = "<group>"; };
 		CEBA08942C6180FC00B60A33 /* Scribit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scribit.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBA08972C6180FC00B60A33 /* ScribitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribitApp.swift; sourceTree = "<group>"; };
 		CEBA089B2C6180FF00B60A33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -90,6 +96,8 @@
 				CE6C915E2C61A565000A68EF /* CanvasView.swift */,
 				CE6C91602C61A878000A68EF /* DrawingView.swift */,
 				CE4EE0382C61DD1A00B9AB61 /* DottedBackgroundView.swift */,
+				CEB7E9D42C62893F00B92530 /* CanvasToolBar.swift */,
+				CEB7E9DA2C628CFA00B92530 /* ToolPickerView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -97,6 +105,7 @@
 		CE6C91472C61A348000A68EF /* View Model */ = {
 			isa = PBXGroup;
 			children = (
+				CEB7E9D62C62897A00B92530 /* CanvasViewModel.swift */,
 			);
 			path = "View Model";
 			sourceTree = "<group>";
@@ -243,6 +252,9 @@
 				CE6C915F2C61A565000A68EF /* CanvasView.swift in Sources */,
 				CE4EE0392C61DD1A00B9AB61 /* DottedBackgroundView.swift in Sources */,
 				CE6C91612C61A878000A68EF /* DrawingView.swift in Sources */,
+				CEB7E9D52C62893F00B92530 /* CanvasToolBar.swift in Sources */,
+				CEB7E9DB2C628CFA00B92530 /* ToolPickerView.swift in Sources */,
+				CEB7E9D72C62897A00B92530 /* CanvasViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

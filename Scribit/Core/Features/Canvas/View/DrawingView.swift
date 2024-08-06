@@ -9,43 +9,41 @@ import PencilKit
 import SwiftUI
 
 struct DrawingView: UIViewRepresentable {
-  @Binding var canvas: PKCanvasView
-  @Binding var toolSelected: Bool
-  @Binding var toolPicker: PKToolPicker
+    @Binding var vm: CanvasView.ViewModel
 
-  func makeUIView(context: Context) -> UIScrollView {
-    let scrollView = UIScrollView()
-    scrollView.delegate = context.coordinator
-    scrollView.minimumZoomScale = 1.0
-    scrollView.maximumZoomScale = 3.0
-    scrollView.bouncesZoom = true
+    func makeUIView(context: Context) -> UIScrollView {
+        let scrollView = UIScrollView()
+        scrollView.delegate = context.coordinator
+        scrollView.minimumZoomScale = 1.0
+        scrollView.maximumZoomScale = 3.0
+        scrollView.bouncesZoom = true
 
-    scrollView.addSubview(canvas)
-    canvas.translatesAutoresizingMaskIntoConstraints = false
-    NSLayoutConstraint.activate([
-      canvas.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-      canvas.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-      canvas.topAnchor.constraint(equalTo: scrollView.topAnchor),
-      canvas.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-      canvas.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-      canvas.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
-    ])
+        scrollView.addSubview(vm.canvas)
+        vm.canvas.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            vm.canvas.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            vm.canvas.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            vm.canvas.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            vm.canvas.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            vm.canvas.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            vm.canvas.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+        ])
 
-    updateDrawingPolicy(for: canvas)
+        updateDrawingPolicy(for: vm.canvas)
 
     return scrollView
   }
 
   func updateUIView(_ uiView: UIScrollView, context: Context) {
-    updateDrawingPolicy(for: canvas)
+      updateDrawingPolicy(for: vm.canvas)
   }
 
   func makeCoordinator() -> Coordinator {
-    Coordinator(canvas: $canvas)
+      Coordinator(canvas: $vm.canvas)
   }
 
   private func updateDrawingPolicy(for canvas: PKCanvasView) {
-    canvas.drawingPolicy = toolSelected ? .anyInput : .pencilOnly
+      canvas.drawingPolicy = vm.toolSelected ? .anyInput : .pencilOnly
   }
 
   class Coordinator: NSObject, UIScrollViewDelegate {

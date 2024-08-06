@@ -10,32 +10,28 @@ import PencilKit
 
 struct DottedBackgroundView: View {
     let dotColor: Color
-    let dotSize: CGFloat
-    let spacing: CGFloat
     
-    @Binding var canvas: PKCanvasView
-    @Binding var toolSelected: Bool
-    @Binding var toolPicker: PKToolPicker
+    @Binding var vm: CanvasView.ViewModel
 
     var body: some View {
         ZStack {
-            DrawingView(canvas: $canvas, toolSelected: $toolSelected, toolPicker: $toolPicker)
+            DrawingView(vm: $vm)
             
             GeometryReader { geometry in
                 Path { path in
                     let width = geometry.size.width
                     let height = geometry.size.height
                     
-                    for x in stride(from: 0, to: width, by: dotSize + spacing) {
-                        for y in stride(from: 0, to: height, by: dotSize + spacing) {
-                            path.addEllipse(in: CGRect(x: x, y: y, width: dotSize, height: dotSize))
+                    for x in stride(from: 0, to: width, by: 2 + 8) {
+                        for y in stride(from: 0, to: height, by: 2 + 8) {
+                            path.addEllipse(in: CGRect(x: x, y: y, width: 2, height: 2))
                         }
                     }
                 }
                 .fill(dotColor)
             }
             .clipped()
-            .edgesIgnoringSafeArea(.all) 
+            .edgesIgnoringSafeArea(.all)
             
         }
     }
