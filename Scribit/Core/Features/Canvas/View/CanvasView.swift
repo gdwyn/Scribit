@@ -19,54 +19,56 @@ struct CanvasView: View {
         NavigationStack {
             ZStack {
                 DottedBackgroundView(dotColor: .accent.opacity(0.2), vm: $vm)
-                    .conditionalGesture(!vm.toolSelected, DragGesture(minimumDistance: 0)
-                    .onChanged { value in
-                        currentLocation = value.location
-                    }
-                    .onEnded { value in
-                        vm.selectText(at: value.location)
-                    }
-                )
-                .overlay(
-                    ForEach(vm.shapes) { shape in
-                        ShapeView(shape: shape)
-                            .position(shape.position)
-                            .gesture(
-                                DragGesture()
-                                    .onChanged { value in
-                                        updateShapePosition(id: shape.id, to: value.location)
-                                    }
-                            )
-                    }
-                )
-                .overlay(
-                    ForEach(vm.texts) { text in
-                        Text(text.text)
-                            .position(text.position)
-                            .onTapGesture {
-                                vm.selectText(at: text.position)
+                    .gesture(
+                        vm.toolSelected ? nil : DragGesture(minimumDistance: 0)
+                            .onChanged { value in
+                                currentLocation = value.location
                             }
-                            .gesture(
-                                DragGesture()
-                                    .onChanged { value in
-                                        updateTextPosition(id: text.id, to: value.location)
-                                    }
-                            )
-                    }
-                )
-                .overlay(
-                    Group {
-                        if let selectedTextID = vm.selectedTextID,
-                           let selectedText = vm.texts.first(where: { $0.id == selectedTextID }) {
-                            TextField("Edit Text", text: $vm.editingText, onCommit: {
-                                vm.updateSelectedText(with: vm.editingText)
-                            })
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .frame(width: 200, height: 40)
-                            .position(selectedText.position)
+                            .onEnded { value in
+                                vm.selectText(at: value.location)
+                            }
+                    )
+                
+                    .overlay(
+                        ForEach(vm.shapes) { shape in
+                            ShapeView(shape: shape)
+                                .position(shape.position)
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            vm.updateShapePosition(id: shape.id, to: value.location)
+                                        }
+                                )
                         }
-                    }
-                )
+                    )
+                    .overlay(
+                        ForEach(vm.texts) { text in
+                            Text(text.text)
+                                .position(text.position)
+                                .onTapGesture {
+                                    vm.selectText(at: text.position)
+                                }
+                                .gesture(
+                                    DragGesture()
+                                        .onChanged { value in
+                                            vm.updateTextPosition(id: text.id, to: value.location)
+                                        }
+                                )
+                        }
+                    )
+                    .overlay(
+                        Group {
+                            if let selectedTextID = vm.selectedTextID,
+                               let selectedText = vm.texts.first(where: { $0.id == selectedTextID }) {
+                                TextField("Edit Text", text: $vm.editingText, onCommit: {
+                                    vm.updateSelectedText(with: vm.editingText)
+                                })
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .frame(width: 200, height: 40)
+                                .position(selectedText.position)
+                            }
+                        }
+                    )
                 
                 VStack {
                     CanvasToolBar(vm: vm)
@@ -81,23 +83,9 @@ struct CanvasView: View {
             }
         }
         .onAppear {
-                    vm.setUndoManager(undoManager)
-                }
-    }
-    
-    func updateShapePosition(id: UUID, to position: CGPoint) {
-        if let index = vm.shapes.firstIndex(where: { $0.id == id }) {
-            vm.shapes[index].position = position
+            vm.setUndoManager(undoManager)
         }
     }
-
-    func updateTextPosition(id: UUID, to position: CGPoint) {
-        if let index = vm.texts.firstIndex(where: { $0.id == id }) {
-            vm.texts[index].position = position
-        }
-    }
-    
-    // -------
 }
 
 

@@ -100,23 +100,15 @@ extension CanvasView {
             undoManager?.setActionName(actionName)
         }
         
-        func moveShape(id: UUID, to position: CGPoint) {
+        func updateShapePosition(id: UUID, to position: CGPoint) {
             if let index = shapes.firstIndex(where: { $0.id == id }) {
-                let oldPosition = shapes[index].position
                 shapes[index].position = position
-                registerUndo(actionName: "Move Shape") {
-                    self.moveShape(id: id, to: oldPosition)
-                }
             }
         }
-        
-        func moveText(id: UUID, to position: CGPoint) {
+
+        func updateTextPosition(id: UUID, to position: CGPoint) {
             if let index = texts.firstIndex(where: { $0.id == id }) {
-                let oldPosition = texts[index].position
                 texts[index].position = position
-                registerUndo(actionName: "Move Text") {
-                    self.moveText(id: id, to: oldPosition)
-                }
             }
         }
         
