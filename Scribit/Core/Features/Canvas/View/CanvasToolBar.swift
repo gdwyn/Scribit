@@ -51,10 +51,7 @@ struct CanvasToolBar: View {
             if vm.toolSelected {
                 Button {
                     withAnimation {
-                        vm.toolPicker.setVisible(false, forFirstResponder: vm.canvas)
-                        vm.toolPicker.removeObserver(vm.canvas)
-                        vm.canvas.resignFirstResponder()
-                        vm.toolSelected = false
+                        vm.hideToolPicker()
                     }
                 } label: {
                     Text("Done")

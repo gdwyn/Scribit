@@ -12,23 +12,22 @@ struct ToolPickerView: View {
 
     var body: some View {
         if !vm.toolSelected {
+
             HStack(spacing: 24) {
                 Button {
                     withAnimation {
-                        vm.toolPicker.setVisible(true, forFirstResponder: vm.canvas)
-                        vm.toolPicker.addObserver(vm.canvas)
-                        vm.canvas.becomeFirstResponder()
-                        vm.toolSelected = true
+                        vm.showToolPicker()
                     }
                 } label: {
                     Image(systemName: "paintbrush.pointed")
                         .font(.title3)
                         .fontWeight(.medium)
-
                 }
                 
                 Button {
-                
+                    withAnimation {
+                        vm.addShape(type: .triangle, at: CGPoint(x: 100, y: 100))
+                    }
                 } label: {
                     Image(systemName: "triangle")
                         .font(.title3)
@@ -36,6 +35,9 @@ struct ToolPickerView: View {
                 }
                 
                 Button {
+                    withAnimation {
+                        vm.addText(at: CGPoint(x: 100, y: 100))
+                    }
                 } label: {
                     Image(systemName: "character.textbox")
                         .font(.title3)
@@ -53,7 +55,6 @@ struct ToolPickerView: View {
             )
             .shadow(color: Color.gray.opacity(0.06), radius: 4, x: 0, y: 4))
             .transition(.scale)
-
         }
     }
 }
