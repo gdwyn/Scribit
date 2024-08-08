@@ -14,6 +14,7 @@ extension CanvasView {
         var canvas = PKCanvasView()
         var toolPicker = PKToolPicker()
         var toolSelected = false
+        var showclearCanvas = false
         
         var shapes: [DraggableShape] = []
         var texts: [DraggableText] = []

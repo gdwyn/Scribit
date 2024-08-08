@@ -89,6 +89,15 @@ struct CanvasView: View {
         
                 }
                 .padding(.horizontal)
+                .alert("Clear canvas", isPresented: $vm.showclearCanvas) {
+                    Button("Cancel", role: .cancel) { }
+                    Button("Clear", role: .destructive) {
+                        vm.canvas.drawing = PKDrawing()
+                    }
+                } message: {
+                    Text("Everything on this canvas will be cleared")
+                }
+                
             }
         }
         .onAppear {

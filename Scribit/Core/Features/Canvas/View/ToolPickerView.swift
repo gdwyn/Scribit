@@ -44,6 +44,17 @@ struct ToolPickerView: View {
                         .font(.title3)
                         .fontWeight(.medium)
                 }
+                
+                Button {
+                    withAnimation {
+                        vm.showclearCanvas = true
+                    }
+                } label: {
+                    Image(systemName: "xmark.bin")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.red)
+                }
             }
             .frame(alignment: .bottom)
             .padding(14)
