@@ -14,7 +14,7 @@ struct DraggableShape: Identifiable {
 }
 
 enum ShapeType {
-    case rectangle, circle, triangle
+    case rectangle, circle, elipse, triangle, star
 }
 
 struct DraggableText: Identifiable {

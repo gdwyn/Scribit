@@ -17,6 +17,7 @@ extension CanvasView {
         
         var shapes: [DraggableShape] = []
         var texts: [DraggableText] = []
+        var showShapes = false
         
         var selectedTextID: UUID? = nil
         var editingText: String = ""

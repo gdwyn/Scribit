@@ -26,7 +26,8 @@ struct ToolPickerView: View {
                 
                 Button {
                     withAnimation {
-                        vm.addShape(type: .triangle, at: CGPoint(x: 100, y: 100))
+                        vm.showShapes = true
+                        //vm.addShape(type: .triangle, at: CGPoint(x: 100, y: 100))
                     }
                 } label: {
                     Image(systemName: "triangle")

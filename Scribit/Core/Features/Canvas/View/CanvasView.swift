@@ -44,9 +44,13 @@ struct CanvasView: View {
                     .overlay(
                         ForEach(vm.texts) { text in
                             Text(text.text)
+                                .font(.headline)
+                                .padding()
                                 .position(text.position)
                                 .onTapGesture {
                                     vm.selectText(at: text.position)
+                                }
+                                .onLongPressGesture {
                                 }
                                 .gesture(
                                     DragGesture()
@@ -60,9 +64,11 @@ struct CanvasView: View {
                         Group {
                             if let selectedTextID = vm.selectedTextID,
                                let selectedText = vm.texts.first(where: { $0.id == selectedTextID }) {
-                                TextField("Edit Text", text: $vm.editingText, onCommit: {
+                                TextField("Edit Text", text: $vm.editingText)
+                                .onChange(of: vm.editingText) {
                                     vm.updateSelectedText(with: vm.editingText)
-                                })
+                                }
+                                                          
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
                                 .frame(width: 200, height: 40)
                                 .position(selectedText.position)
@@ -75,9 +81,12 @@ struct CanvasView: View {
                     
                     Spacer()
                     
-                    ToolPickerView(vm: vm)
-                    
-                    
+                    if vm.showShapes {
+                        ShapeSelectView(vm: vm)
+                    } else {
+                        ToolPickerView(vm: vm)
+                    }
+        
                 }
                 .padding(.horizontal)
             }
@@ -85,33 +94,6 @@ struct CanvasView: View {
         .onAppear {
             vm.setUndoManager(undoManager)
         }
-    }
-}
-
-
-struct ShapeView: View {
-    let shape: DraggableShape
-
-    var body: some View {
-        switch shape.type {
-        case .rectangle:
-            Rectangle().frame(width: 50, height: 50)
-        case .circle:
-            Circle().frame(width: 50, height: 50)
-        case .triangle:
-            Triangle().frame(width: 50, height: 50)
-        }
-    }
-}
-
-struct Triangle: Shape {
-    func path(in rect: CGRect) -> Path {
-        var path = Path()
-        path.move(to: CGPoint(x: rect.midX, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.minX, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
-        path.closeSubpath()
-        return path
     }
 }
 
