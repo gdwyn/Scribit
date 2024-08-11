@@ -11,12 +11,14 @@ import SwiftUI
 struct ScribitApp: App {
     @StateObject var authVM = AuthViewModel()
     @StateObject var canvasVM = CanvasViewModel()
+    @StateObject var homeVM = HomeViewModel()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(canvasVM)
                 .environmentObject(authVM)
+                .environmentObject(homeVM)
         }
     }
 }

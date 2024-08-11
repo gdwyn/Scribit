@@ -8,36 +8,71 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var homeVM: HomeViewModel
+    @EnvironmentObject var canvasVM: CanvasViewModel
     @Binding var appUser: AppUser?
+    
+    @State var isNavigatingToCanvasView = false
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 14) {
-                Image("scribempty")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 84)
+            VStack(alignment: .leading) {
                 
-                VStack(spacing: 6) {
-                    Text("Hi! Let's scrib")
-                        .font(.title3)
-                    Text("Click the button below to start scribbing on your canvas")
-                        .font(.callout)
-                        .foregroundStyle(.gray)
-                        .frame(width: 220)
-                        .multilineTextAlignment(.center)
-                }
-                
-                NavigationLink(destination: CanvasView()){
-                    Text("Start Scribbing")
-                        .padding()
-                        .foregroundStyle(.white)
-                        .background(.accent, in: RoundedRectangle(cornerRadius: 18))
+                if !canvasVM.canvasList.isEmpty {
+                    ScrollView(showsIndicators: false) {
+                        LazyVGrid (columns: homeVM.columns, spacing: 14) {
+
+                            ForEach(canvasVM.canvasList) { canvas in
+                                
+                                Button {
+                                    canvasVM.currentCanvas = canvas
+                                    isNavigatingToCanvasView = true
+                                } label: {
+                                    VStack(alignment: .leading, spacing: 16) {
+                                        Image("scribempty")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: 90)
+                                            .padding(16)
+                                            .background(.gray.opacity(0.1))
+                                            .clipShape(RoundedRectangle(cornerRadius: 24))
+                                        
+                                        VStack(alignment: .leading, spacing: 6) {
+                                            Text(canvas.title)
+                                                .font(.headline)
+                                                .foregroundStyle(.dark)
+                                            
+                                            Text(homeVM.formattedDate(canvas.date))
+                                                .font(.callout)
+                                                .foregroundStyle(.gray)
+                                        }
+                                    }
+                                    .padding(.top, 18)
+                                }
+                                
+                            }
+                            
+                        }
+                    }
+                    
+                    NavigationLink(destination: CanvasView(), isActive: $isNavigatingToCanvasView) {
+                        EmptyView()
+                    }
+                } else {
+                    EmptyListView()
                 }
                 
             }
-            .padding(.bottom, 60)
+            .padding(.horizontal)
             .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        canvasVM.createCanvas(title: "New canvas")
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         Task {
@@ -66,5 +101,4 @@ struct HomeView: View {
 
 #Preview {
     HomeView(appUser: .constant(.init(uid: "1234", email: nil)))
-        .environmentObject(AuthViewModel())
 }

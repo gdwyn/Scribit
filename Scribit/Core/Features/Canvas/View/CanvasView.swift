@@ -92,7 +92,7 @@ struct CanvasView: View {
                 .alert("Clear canvas", isPresented: $canvasVM.showclearCanvas) {
                     Button("Cancel", role: .cancel) { }
                     Button("Clear", role: .destructive) {
-                        canvasVM.canvas.drawing = PKDrawing()
+                        canvasVM.currentCanvas.canvas.drawing = PKDrawing()
                     }
                 } message: {
                     Text("Everything on this canvas will be cleared")

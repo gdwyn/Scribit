@@ -18,28 +18,28 @@ struct DrawingView: UIViewRepresentable {
         scrollView.maximumZoomScale = 3.0
         scrollView.bouncesZoom = true
 
-        scrollView.addSubview(canvasVM.canvas)
-        canvasVM.canvas.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.addSubview(canvasVM.currentCanvas.canvas)
+        canvasVM.currentCanvas.canvas.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            canvasVM.canvas.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            canvasVM.canvas.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            canvasVM.canvas.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            canvasVM.canvas.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            canvasVM.canvas.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            canvasVM.canvas.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+            canvasVM.currentCanvas.canvas.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            canvasVM.currentCanvas.canvas.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            canvasVM.currentCanvas.canvas.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            canvasVM.currentCanvas.canvas.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            canvasVM.currentCanvas.canvas.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            canvasVM.currentCanvas.canvas.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ])
 
-        updateDrawingPolicy(for: canvasVM.canvas)
+        updateDrawingPolicy(for: canvasVM.currentCanvas.canvas)
 
     return scrollView
   }
 
   func updateUIView(_ uiView: UIScrollView, context: Context) {
-      updateDrawingPolicy(for: canvasVM.canvas)
+      updateDrawingPolicy(for: canvasVM.currentCanvas.canvas)
   }
 
   func makeCoordinator() -> Coordinator {
-      Coordinator(canvas: $canvasVM.canvas)
+      Coordinator(canvas: $canvasVM.currentCanvas.canvas)
   }
 
   private func updateDrawingPolicy(for canvas: PKCanvasView) {

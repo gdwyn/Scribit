@@ -9,7 +9,8 @@ import Foundation
 import PencilKit
 
 class CanvasViewModel: ObservableObject {
-    @Published var canvas = PKCanvasView()
+    @Published var currentCanvas = Canvas(id: UUID(), title: "first canvas", canvas: PKCanvasView())
+    @Published var canvasList: [Canvas] = []
     @Published var toolPicker = PKToolPicker()
     @Published var toolSelected = false
     @Published var showclearCanvas = false
@@ -23,8 +24,13 @@ class CanvasViewModel: ObservableObject {
     
     private var undoManager: UndoManager?
     
+    func createCanvas(title: String) {
+        let newCanvas = Canvas(id: UUID(), title: title, canvas: PKCanvasView())
+        canvasList.append(newCanvas)
+    }
+    
     func saveDrawing() {
-        let drawingImage = canvas.drawing.image(from: canvas.drawing.bounds, scale: 1.0)
+        let drawingImage = currentCanvas.canvas.drawing.image(from: currentCanvas.canvas.drawing.bounds, scale: 1.0)
         UIImageWriteToSavedPhotosAlbum(drawingImage, nil, nil, nil)
     }
     
@@ -114,17 +120,17 @@ class CanvasViewModel: ObservableObject {
     
     func showToolPicker() {
         print("Showing Tool Picker")
-        toolPicker.setVisible(true, forFirstResponder: canvas)
-        toolPicker.addObserver(canvas)
-        canvas.becomeFirstResponder()
+        toolPicker.setVisible(true, forFirstResponder: currentCanvas.canvas)
+        toolPicker.addObserver(currentCanvas.canvas)
+        currentCanvas.canvas.becomeFirstResponder()
         toolSelected = true
     }
     
     func hideToolPicker() {
         print("Hiding Tool Picker")
-        toolPicker.setVisible(false, forFirstResponder: canvas)
-        toolPicker.removeObserver(canvas)
-        canvas.resignFirstResponder()
+        toolPicker.setVisible(false, forFirstResponder: currentCanvas.canvas)
+        toolPicker.removeObserver(currentCanvas.canvas)
+        currentCanvas.canvas.resignFirstResponder()
         toolSelected = false
     }
 }

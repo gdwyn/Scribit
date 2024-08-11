@@ -1,0 +1,16 @@
+//
+//  Canvas.swift
+//  Scribit
+//
+//  Created by Godwin IE on 11/08/2024.
+//
+
+import Foundation
+import PencilKit
+
+struct Canvas: Identifiable {
+    let id: UUID
+    var title: String
+    var canvas: PKCanvasView
+    let date = Date.now
+}
