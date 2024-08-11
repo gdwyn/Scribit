@@ -10,17 +10,18 @@ import SwiftUI
 struct CanvasToolBar: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.undoManager) private var undoManager
-    
-    var vm: CanvasView.ViewModel
+    @EnvironmentObject var canvasVM: CanvasViewModel
     
     var body: some View {
         HStack {
             Button {
-                
+                dismiss()
             } label: {
                 Image(systemName: "chevron.left")
                     .font(.headline)
                     .fontWeight(.medium)
+                    .padding(8)
+                    .background(.gray.opacity(0.06), in: Circle())
 
             }
             .frame(width: 120, alignment: .leading)
@@ -48,10 +49,10 @@ struct CanvasToolBar: View {
             
             Spacer()
             
-            if vm.toolSelected {
+            if canvasVM.toolSelected {
                 Button {
                     withAnimation {
-                        vm.hideToolPicker()
+                        canvasVM.hideToolPicker()
                     }
                 } label: {
                     Text("Done")
@@ -67,7 +68,7 @@ struct CanvasToolBar: View {
             } else {
                 HStack(spacing: 14) {
                     Button {
-                        vm.saveDrawing()
+                        canvasVM.saveDrawing()
                     } label: {
                         Image(systemName: "square.and.arrow.down.on.square")
                             .font(.headline)
@@ -75,13 +76,13 @@ struct CanvasToolBar: View {
 
                     }
                     
-                    Button {
-                    } label: {
-                        Image(systemName: "plus")
-                            .font(.headline)
-                            .fontWeight(.medium)
-
-                    }
+//                    Button {
+//                    } label: {
+//                        Image(systemName: "plus")
+//                            .font(.headline)
+//                            .fontWeight(.medium)
+//
+//                    }
                     
                 }
                 .transition(.scale)

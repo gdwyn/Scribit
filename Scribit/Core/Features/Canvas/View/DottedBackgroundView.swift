@@ -11,11 +11,9 @@ import PencilKit
 struct DottedBackgroundView: View {
     let dotColor: Color
     
-    @Binding var vm: CanvasView.ViewModel
-
     var body: some View {
         ZStack {
-            DrawingView(vm: $vm)
+            DrawingView()
             
             GeometryReader { geometry in
                 Path { path in

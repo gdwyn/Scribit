@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ShapeSelectView: View {
-    var vm: CanvasView.ViewModel
-
+    @EnvironmentObject var canvasVM: CanvasViewModel
+    
     var body: some View {
         HStack(spacing: 24) {
             Button {
                 withAnimation {
-                    vm.addShape(type: .rectangle, at: CGPoint(x: 100, y: 100))
-                    vm.showShapes = false
+                    canvasVM.addShape(type: .rectangle, at: CGPoint(x: 100, y: 100))
+                    canvasVM.showShapes = false
                 }
             } label: {
                 Image(systemName: "rectangle")
@@ -26,8 +26,8 @@ struct ShapeSelectView: View {
             
             Button {
                 withAnimation {
-                    vm.addShape(type: .circle, at: CGPoint(x: 100, y: 100))
-                    vm.showShapes = false
+                    canvasVM.addShape(type: .circle, at: CGPoint(x: 100, y: 100))
+                    canvasVM.showShapes = false
                 }
             } label: {
                 Image(systemName: "circle")
@@ -38,8 +38,8 @@ struct ShapeSelectView: View {
             
             Button {
                 withAnimation {
-                    vm.addShape(type: .elipse, at: CGPoint(x: 100, y: 100))
-                    vm.showShapes = false
+                    canvasVM.addShape(type: .elipse, at: CGPoint(x: 100, y: 100))
+                    canvasVM.showShapes = false
                 }
             } label: {
                 Image(systemName: "oval")
@@ -50,8 +50,8 @@ struct ShapeSelectView: View {
             
             Button {
                 withAnimation {
-                    vm.addShape(type: .triangle, at: CGPoint(x: 100, y: 100))
-                    vm.showShapes = false
+                    canvasVM.addShape(type: .triangle, at: CGPoint(x: 100, y: 100))
+                    canvasVM.showShapes = false
                 }
             } label: {
                 Image(systemName: "triangle")
@@ -62,8 +62,8 @@ struct ShapeSelectView: View {
             
             Button {
                 withAnimation {
-                    vm.addShape(type: .star, at: CGPoint(x: 100, y: 100))
-                    vm.showShapes = false
+                    canvasVM.addShape(type: .star, at: CGPoint(x: 100, y: 100))
+                    canvasVM.showShapes = false
                 }
             } label: {
                 Image(systemName: "star")

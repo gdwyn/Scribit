@@ -9,7 +9,7 @@ import PencilKit
 import SwiftUI
 
 struct CanvasView: View {
-    @State private var vm = ViewModel()
+    @EnvironmentObject var canvasVM: CanvasViewModel
     @State private var currentLocation: CGPoint = .init(x: 40, y: 80)
     
     @Environment(\.dismiss) private var dismiss
@@ -18,55 +18,55 @@ struct CanvasView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                DottedBackgroundView(dotColor: .accent.opacity(0.2), vm: $vm)
+                DottedBackgroundView(dotColor: Color.accent.opacity(0.2))
                     .gesture(
-                        vm.toolSelected ? nil : DragGesture(minimumDistance: 0)
+                        canvasVM.toolSelected ? nil : DragGesture(minimumDistance: 0)
                             .onChanged { value in
                                 currentLocation = value.location
                             }
                             .onEnded { value in
-                                vm.selectText(at: value.location)
+                                canvasVM.selectText(at: value.location)
                             }
                     )
                 
                     .overlay(
-                        ForEach(vm.shapes) { shape in
+                        ForEach(canvasVM.shapes) { shape in
                             ShapeView(shape: shape)
                                 .position(shape.position)
                                 .gesture(
                                     DragGesture()
                                         .onChanged { value in
-                                            vm.updateShapePosition(id: shape.id, to: value.location)
+                                            canvasVM.updateShapePosition(id: shape.id, to: value.location)
                                         }
                                 )
                         }
                     )
                     .overlay(
-                        ForEach(vm.texts) { text in
+                        ForEach(canvasVM.texts) { text in
                             Text(text.text)
                                 .font(.headline)
                                 .padding()
                                 .position(text.position)
                                 .onTapGesture {
-                                    vm.selectText(at: text.position)
+                                    canvasVM.selectText(at: text.position)
                                 }
                                 .onLongPressGesture {
                                 }
                                 .gesture(
                                     DragGesture()
                                         .onChanged { value in
-                                            vm.updateTextPosition(id: text.id, to: value.location)
+                                            canvasVM.updateTextPosition(id: text.id, to: value.location)
                                         }
                                 )
                         }
                     )
                     .overlay(
                         Group {
-                            if let selectedTextID = vm.selectedTextID,
-                               let selectedText = vm.texts.first(where: { $0.id == selectedTextID }) {
-                                TextField("Edit Text", text: $vm.editingText)
-                                .onChange(of: vm.editingText) {
-                                    vm.updateSelectedText(with: vm.editingText)
+                            if let selectedTextID = canvasVM.selectedTextID,
+                               let selectedText = canvasVM.texts.first(where: { $0.id == selectedTextID }) {
+                                TextField("Edit Text", text: $canvasVM.editingText)
+                                .onChange(of: canvasVM.editingText) {
+                                    canvasVM.updateSelectedText(with: canvasVM.editingText)
                                 }
                                                           
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -77,31 +77,32 @@ struct CanvasView: View {
                     )
                 
                 VStack {
-                    CanvasToolBar(vm: vm)
+                    CanvasToolBar()
                     
                     Spacer()
                     
-                    if vm.showShapes {
-                        ShapeSelectView(vm: vm)
+                    if canvasVM.showShapes {
+                        ShapeSelectView()
                     } else {
-                        ToolPickerView(vm: vm)
+                        ToolPickerView()
                     }
         
                 }
                 .padding(.horizontal)
-                .alert("Clear canvas", isPresented: $vm.showclearCanvas) {
+                .alert("Clear canvas", isPresented: $canvasVM.showclearCanvas) {
                     Button("Cancel", role: .cancel) { }
                     Button("Clear", role: .destructive) {
-                        vm.canvas.drawing = PKDrawing()
+                        canvasVM.canvas.drawing = PKDrawing()
                     }
                 } message: {
                     Text("Everything on this canvas will be cleared")
                 }
                 
             }
+            .navigationBarBackButtonHidden()
         }
         .onAppear {
-            vm.setUndoManager(undoManager)
+            canvasVM.setUndoManager(undoManager)
         }
     }
 }

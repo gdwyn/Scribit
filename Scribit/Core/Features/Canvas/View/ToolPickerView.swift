@@ -8,15 +8,15 @@
 import SwiftUI
 
 struct ToolPickerView: View {
-    var vm: CanvasView.ViewModel
-
+    @EnvironmentObject var canvasVM: CanvasViewModel
+    
     var body: some View {
-        if !vm.toolSelected {
+        if !canvasVM.toolSelected {
 
             HStack(spacing: 24) {
                 Button {
                     withAnimation {
-                        vm.showToolPicker()
+                        canvasVM.showToolPicker()
                     }
                 } label: {
                     Image(systemName: "paintbrush.pointed")
@@ -26,8 +26,7 @@ struct ToolPickerView: View {
                 
                 Button {
                     withAnimation {
-                        vm.showShapes = true
-                        //vm.addShape(type: .triangle, at: CGPoint(x: 100, y: 100))
+                        canvasVM.showShapes = true
                     }
                 } label: {
                     Image(systemName: "triangle")
@@ -37,7 +36,7 @@ struct ToolPickerView: View {
                 
                 Button {
                     withAnimation {
-                        vm.addText(at: CGPoint(x: 100, y: 100))
+                        canvasVM.addText(at: CGPoint(x: 100, y: 100))
                     }
                 } label: {
                     Image(systemName: "character.textbox")
@@ -47,7 +46,7 @@ struct ToolPickerView: View {
                 
                 Button {
                     withAnimation {
-                        vm.showclearCanvas = true
+                        canvasVM.showclearCanvas = true
                     }
                 } label: {
                     Image(systemName: "xmark.bin")
