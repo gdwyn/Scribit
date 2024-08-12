@@ -55,6 +55,7 @@ struct HomeView: View {
                         }
                     }
                     
+                    
                     NavigationLink(destination: CanvasView(), isActive: $isNavigatingToCanvasView) {
                         EmptyView()
                     }
@@ -67,17 +68,20 @@ struct HomeView: View {
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        canvasVM.createCanvas(title: "New canvas")
+                        Task {
+                            await canvasVM.createCanvas(title: "New canvas")
+                        }
                     } label: {
                         Image(systemName: "plus")
                     }
+                    
                 }
-
+         
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
                         Task {
                             do {
-                                try await AuthManager.shared.signOut()
+                                try await Supabase.shared.signOut()
                                 self.appUser = nil
                             } catch {
                                 print("unable to sign out")
@@ -94,7 +98,13 @@ struct HomeView: View {
                     }
                 }
             }
+            .refreshable {
+                await canvasVM.fetchCanvases()
+            }
             
+        }
+        .task {
+            await canvasVM.fetchCanvases()
         }
     }
 }

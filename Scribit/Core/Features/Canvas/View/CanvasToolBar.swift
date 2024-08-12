@@ -54,6 +54,9 @@ struct CanvasToolBar: View {
                     withAnimation {
                         canvasVM.hideToolPicker()
                     }
+                    Task {
+                        await canvasVM.updateCanvas(canvas: canvasVM.currentCanvas)
+                    }
                 } label: {
                     Text("Done")
                         .padding(.horizontal, 12)

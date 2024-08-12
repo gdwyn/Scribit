@@ -9,7 +9,7 @@ import Foundation
 import PencilKit
 
 class CanvasViewModel: ObservableObject {
-    @Published var currentCanvas = Canvas(id: UUID(), title: "first canvas", canvas: PKCanvasView())
+    @Published var currentCanvas = Canvas(id: UUID(), title: "", canvas: PKCanvasView(), date: Date.now)
     @Published var canvasList: [Canvas] = []
     @Published var toolPicker = PKToolPicker()
     @Published var toolSelected = false
@@ -24,10 +24,111 @@ class CanvasViewModel: ObservableObject {
     
     private var undoManager: UndoManager?
     
-    func createCanvas(title: String) {
-        let newCanvas = Canvas(id: UUID(), title: title, canvas: PKCanvasView())
-        canvasList.append(newCanvas)
+    // create
+    func createCanvas(title: String) async {
+        let newCanvasView = await PKCanvasView()
+        let drawingData = await newCanvasView.drawing.dataRepresentation()
+        let base64DrawingData = drawingData.base64EncodedString()
+        
+        let newCanvas = Canvas(id: UUID(), title: title, canvas: newCanvasView, date: Date.now)
+        
+        do {
+            try await Supabase.client
+                .from("canvases")
+                .insert(["id": newCanvas.id.uuidString,
+                         "title": newCanvas.title,
+                         "canvas": base64DrawingData,
+                         "date": ISO8601DateFormatter().string(from: newCanvas.date)])
+                .execute()
+            
+            DispatchQueue.main.async {
+                self.canvasList.append(newCanvas)
+            }
+        } catch {
+            print("Error creating canvas: \(error)")
+        }
     }
+    
+    
+    // fetch
+    func fetchCanvases() async {
+        do {
+            let query = try? await Supabase.client
+                .from("canvases")
+                .select()
+                .execute()
+            
+            // decode the JSON data into an array of dictionaries
+            guard let data = query?.data,
+                  let result = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] else {
+                print("No data fetched or data format is incorrect")
+                return
+            }
+            
+            var fetchedCanvases: [Canvas] = []
+            for item in result {
+                if let idString = item["id"] as? String,
+                   let id = UUID(uuidString: idString),
+                   let title = item["title"] as? String,
+                   let base64DrawingData = item["canvas"] as? String,
+                   let dateString = item["date"] as? String,
+                   let date = ISO8601DateFormatter().date(from: dateString) {
+                    
+                    if let drawingData = Data(base64Encoded: base64DrawingData),
+                       let drawing = try? PKDrawing(data: drawingData) {
+                        let canvasView = await PKCanvasView()
+                        
+                        await MainActor.run {
+                            canvasView.drawing = drawing // main thread
+                        }
+                        
+                        let canvas = Canvas(id: id, title: title, canvas: canvasView, date: date)
+                        fetchedCanvases.append(canvas)
+                    }
+                }
+            }
+            
+            let canvasesToSet = fetchedCanvases
+            await MainActor.run {
+                self.canvasList = canvasesToSet // main thread
+            }
+        } catch {
+            print("Error fetching canvases: \(error)")
+        }
+    }
+
+    // update
+    func updateCanvas(canvas: Canvas) async {
+        do {
+            // convert the drawing to base64
+            let drawingData = await canvas.canvas.drawing.dataRepresentation()
+            let base64DrawingData = drawingData.base64EncodedString()
+
+            // cpdate the canvas in Supabase
+            try await Supabase.client
+                .from("canvases")
+                .update([
+                    "title": canvas.title,
+                    "canvas": base64DrawingData,
+                    "date": ISO8601DateFormatter().string(from: canvas.date)
+                ])
+                .eq("id", value: canvas.id.uuidString)
+                .execute()
+
+            print("Canvas updated successfully")
+            
+            // update the local canvas list with the modified canvas (optional)
+            if let index = canvasList.firstIndex(where: { $0.id == canvas.id }) {
+                await MainActor.run {
+                    self.canvasList[index] = canvas
+                }
+            }
+            
+        } catch {
+            print("Error updating canvas: \(error)")
+        }
+    }
+
     
     func saveDrawing() {
         let drawingImage = currentCanvas.canvas.drawing.image(from: currentCanvas.canvas.drawing.bounds, scale: 1.0)

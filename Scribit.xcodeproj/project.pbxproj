@@ -27,7 +27,7 @@
 		CEEFE5622C64FF25000D5BAF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE5612C64FF25000D5BAF /* LoginView.swift */; };
 		CEEFE5642C650769000D5BAF /* SignupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE5632C650769000D5BAF /* SignupView.swift */; };
 		CEEFE5662C6507D0000D5BAF /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE5652C6507D0000D5BAF /* AuthViewModel.swift */; };
-		CEEFE5692C650C1A000D5BAF /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE5682C650C1A000D5BAF /* AuthManager.swift */; };
+		CEEFE5692C650C1A000D5BAF /* Supabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE5682C650C1A000D5BAF /* Supabase.swift */; };
 		CEEFE56C2C650E2E000D5BAF /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = CEEFE56B2C650E2E000D5BAF /* Supabase */; };
 		CEEFE56E2C651317000D5BAF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE56D2C651317000D5BAF /* ContentView.swift */; };
 		CEF0770A2C63D39B00FA01F3 /* Draggables.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF077092C63D39B00FA01F3 /* Draggables.swift */; };
@@ -55,7 +55,7 @@
 		CEEFE5612C64FF25000D5BAF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		CEEFE5632C650769000D5BAF /* SignupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupView.swift; sourceTree = "<group>"; };
 		CEEFE5652C6507D0000D5BAF /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
-		CEEFE5682C650C1A000D5BAF /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		CEEFE5682C650C1A000D5BAF /* Supabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supabase.swift; sourceTree = "<group>"; };
 		CEEFE56D2C651317000D5BAF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CEF077092C63D39B00FA01F3 /* Draggables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Draggables.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -248,7 +248,7 @@
 		CEEFE5672C650C08000D5BAF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				CEEFE5682C650C1A000D5BAF /* AuthManager.swift */,
+				CEEFE5682C650C1A000D5BAF /* Supabase.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -348,7 +348,7 @@
 				CEF0770A2C63D39B00FA01F3 /* Draggables.swift in Sources */,
 				CEEFE5602C64FDD1000D5BAF /* AppPasswordField.swift in Sources */,
 				CEB03B9A2C68EB000006B25E /* Canvas.swift in Sources */,
-				CEEFE5692C650C1A000D5BAF /* AuthManager.swift in Sources */,
+				CEEFE5692C650C1A000D5BAF /* Supabase.swift in Sources */,
 				CEB7E9D52C62893F00B92530 /* CanvasToolBar.swift in Sources */,
 				CEEFE5622C64FF25000D5BAF /* LoginView.swift in Sources */,
 				CEEFE5642C650769000D5BAF /* SignupView.swift in Sources */,

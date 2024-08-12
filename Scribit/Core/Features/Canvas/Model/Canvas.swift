@@ -8,9 +8,9 @@
 import Foundation
 import PencilKit
 
-struct Canvas: Identifiable {
+struct Canvas: Identifiable, Equatable {
     let id: UUID
     var title: String
     var canvas: PKCanvasView
-    let date = Date.now
+    let date: Date
 }

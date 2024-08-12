@@ -17,7 +17,7 @@ class AuthViewModel: ObservableObject {
     
     func signUp(email: String, password: String) async throws -> AppUser {
         if isFormValid(email: email, password: password) {
-                    return try await AuthManager.shared.signUp(email: email, password: password)
+                    return try await Supabase.shared.signUp(email: email, password: password)
         } else {
             print("registion form is invalid")
             throw NSError()
@@ -26,7 +26,7 @@ class AuthViewModel: ObservableObject {
     
     func logIn(email: String, password: String) async throws -> AppUser {
         if isFormValid(email: email, password: password) {
-            return try await AuthManager.shared.LogIn(email: email, password: password)
+            return try await Supabase.shared.LogIn(email: email, password: password)
         } else {
             print("sign in form is invalid")
             throw NSError()
