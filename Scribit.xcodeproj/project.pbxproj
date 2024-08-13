@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE0B51EB2C6AC94E003D3CD3 /* Realtime in Frameworks */ = {isa = PBXBuildFile; productRef = CE0B51EA2C6AC94E003D3CD3 /* Realtime */; };
 		CE2E15C32C643B7F006C3C7D /* Shapes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E15C22C643B7F006C3C7D /* Shapes.swift */; };
 		CE2E15C52C644A4C006C3C7D /* ShapeSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE2E15C42C644A4C006C3C7D /* ShapeSelectView.swift */; };
 		CE4EE0392C61DD1A00B9AB61 /* DottedBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE4EE0382C61DD1A00B9AB61 /* DottedBackgroundView.swift */; };
@@ -66,6 +67,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEEFE56C2C650E2E000D5BAF /* Supabase in Frameworks */,
+				CE0B51EB2C6AC94E003D3CD3 /* Realtime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +282,7 @@
 			name = Scribit;
 			packageProductDependencies = (
 				CEEFE56B2C650E2E000D5BAF /* Supabase */,
+				CE0B51EA2C6AC94E003D3CD3 /* Realtime */,
 			);
 			productName = Scribit;
 			productReference = CEBA08942C6180FC00B60A33 /* Scribit.app */;
@@ -585,6 +588,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		CE0B51EA2C6AC94E003D3CD3 /* Realtime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEEFE56A2C650E2E000D5BAF /* XCRemoteSwiftPackageReference "supabase-swift" */;
+			productName = Realtime;
+		};
 		CEEFE56B2C650E2E000D5BAF /* Supabase */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = CEEFE56A2C650E2E000D5BAF /* XCRemoteSwiftPackageReference "supabase-swift" */;

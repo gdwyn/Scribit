@@ -12,5 +12,6 @@ struct Canvas: Identifiable, Equatable {
     let id: UUID
     var title: String
     var canvas: PKCanvasView
-    let date: Date
+    var date: Date
+    let userId: String
 }

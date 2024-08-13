@@ -9,7 +9,7 @@ import Foundation
 import PencilKit
 
 class CanvasViewModel: ObservableObject {
-    @Published var currentCanvas = Canvas(id: UUID(), title: "", canvas: PKCanvasView(), date: Date.now)
+    @Published var currentCanvas = Canvas(id: UUID(), title: "", canvas: PKCanvasView(), date: Date.now, userId: "")
     @Published var canvasList: [Canvas] = []
     @Published var toolPicker = PKToolPicker()
     @Published var toolSelected = false
@@ -26,19 +26,22 @@ class CanvasViewModel: ObservableObject {
     
     // create
     func createCanvas(title: String) async {
+        do {
+        let currentUser = try await Supabase.shared.getCurrentSession()
         let newCanvasView = await PKCanvasView()
         let drawingData = await newCanvasView.drawing.dataRepresentation()
         let base64DrawingData = drawingData.base64EncodedString()
         
-        let newCanvas = Canvas(id: UUID(), title: title, canvas: newCanvasView, date: Date.now)
+            let newCanvas = Canvas(id: UUID(), title: title, canvas: newCanvasView, date: Date.now, userId: currentUser.uid)
         
-        do {
             try await Supabase.client
                 .from("canvases")
                 .insert(["id": newCanvas.id.uuidString,
                          "title": newCanvas.title,
                          "canvas": base64DrawingData,
-                         "date": ISO8601DateFormatter().string(from: newCanvas.date)])
+                         "date": ISO8601DateFormatter().string(from: newCanvas.date),
+                         "userId": newCanvas.userId
+                        ])
                 .execute()
             
             DispatchQueue.main.async {
@@ -53,9 +56,12 @@ class CanvasViewModel: ObservableObject {
     // fetch
     func fetchCanvases() async {
         do {
+            let currentUser = try await Supabase.shared.getCurrentSession()
+            
             let query = try? await Supabase.client
                 .from("canvases")
                 .select()
+                .eq("userId", value: currentUser.uid)
                 .execute()
             
             // decode the JSON data into an array of dictionaries
@@ -82,7 +88,7 @@ class CanvasViewModel: ObservableObject {
                             canvasView.drawing = drawing // main thread
                         }
                         
-                        let canvas = Canvas(id: id, title: title, canvas: canvasView, date: date)
+                        let canvas = Canvas(id: id, title: title, canvas: canvasView, date: date, userId: currentUser.uid)
                         fetchedCanvases.append(canvas)
                     }
                 }
