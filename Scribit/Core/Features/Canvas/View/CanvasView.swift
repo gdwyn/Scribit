@@ -110,7 +110,8 @@ struct CanvasView: View {
         }
         .onDisappear {
             if true {
-                    canvasVM.unsubscribe()
+                canvasVM.unsubscribe()
+                canvasVM.isCollaborating = false
             }
         }
        

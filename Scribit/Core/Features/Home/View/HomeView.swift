@@ -12,7 +12,7 @@ struct HomeView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
     @Binding var appUser: AppUser?
     
-    @State var isNavigatingToCanvasView = false
+    
 
     var body: some View {
         NavigationStack {
@@ -20,35 +20,51 @@ struct HomeView: View {
                 
                 if !canvasVM.canvasList.isEmpty {
                     ScrollView(showsIndicators: false) {
-                        LazyVGrid (columns: homeVM.columns, spacing: 14) {
+                        LazyVGrid (columns: homeVM.columns) {
 
                             ForEach(canvasVM.canvasList) { canvas in
                                 
                                 Button {
                                     canvasVM.currentCanvas = canvas
-                                    isNavigatingToCanvasView = true
+                                    homeVM.isNavigatingToCanvasView = true
                                 } label: {
-                                    VStack(alignment: .leading, spacing: 16) {
-                                        Image("scribempty")
+                                    VStack(alignment: .leading, spacing: 14) {
+                                        Image("canvasthumbnail")
                                             .resizable()
                                             .scaledToFit()
-                                            .frame(width: 90)
-                                            .padding(16)
-                                            .background(.gray.opacity(0.1))
-                                            .clipShape(RoundedRectangle(cornerRadius: 24))
+                                            .frame(maxWidth: .infinity, maxHeight: 128)
+                                            .padding(26)
+                                            .background(.accent.opacity(0.05))
+                                            .clipShape(RoundedRectangle(cornerRadius: 22))
                                         
-                                        VStack(alignment: .leading, spacing: 6) {
-                                            Text(canvas.title)
-                                                .font(.headline)
-                                                .foregroundStyle(.dark)
+                                        HStack {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text(canvas.title)
+                                                    .font(.headline)
+                                                    .foregroundStyle(.dark)
+                                                
+                                                Text(homeVM.formattedDate(canvas.date))
+                                                    .font(.callout)
+                                                    .foregroundStyle(.gray)
+                                            }
                                             
-                                            Text(homeVM.formattedDate(canvas.date))
-                                                .font(.callout)
-                                                .foregroundStyle(.gray)
+                                            Spacer()
+                                            
+                                            Button {
+                                                canvasVM.deleteCanvas(canvas: canvas)
+                                            } label: {
+                                                Image(systemName: "xmark.bin.fill")
+                                                    .padding(8)
+                                                    .foregroundStyle(.gray)
+                                                    .background(.gray.opacity(0.06), in: Circle())
+                                            }
                                         }
                                     }
-                                    .padding(.top, 18)
+                                    
                                 }
+                                .padding(.top, 28)
+                                .transition(.scale)
+                                .transition(.opacity)
                                 
                             }
                             
@@ -56,7 +72,7 @@ struct HomeView: View {
                     }
                     
                     
-                    NavigationLink(destination: CanvasView(), isActive: $isNavigatingToCanvasView) {
+                    NavigationLink(destination: CanvasView(), isActive: $homeVM.isNavigatingToCanvasView) {
                         EmptyView()
                     }
                 } else {
@@ -65,48 +81,7 @@ struct HomeView: View {
                 
             }
             .padding(.horizontal)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        Task {
-                            await canvasVM.createCanvas(title: "New canvas")
-                        }
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                    
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        CollaborationView()
-                    } label: {
-                        Image(systemName: "xmark")
-                    }
-                    
-                }
-         
-                ToolbarItem(placement: .navigationBarLeading) {
-                    Button {
-                        Task {
-                            do {
-                                try await Supabase.shared.signOut()
-                                self.appUser = nil
-                            } catch {
-                                print("unable to sign out")
-                            }
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: "rectangle.portrait.and.arrow.forward")
-                                .rotationEffect(.degrees(180))
-                            Text("Log out")
-                        }
-                        .font(.callout)
-                        .foregroundStyle(.gray)
-                    }
-                }
-            }
+            .toolbar {HomeToolBar()}
             .refreshable {
                 await canvasVM.fetchCanvases()
             }
@@ -121,3 +96,25 @@ struct HomeView: View {
 #Preview {
     HomeView(appUser: .constant(.init(uid: "1234", email: nil)))
 }
+
+
+//                ToolbarItem(placement: .navigationBarLeading) {
+//                    Button {
+//                        Task {
+//                            do {
+//                                try await Supabase.shared.signOut()
+//                                self.appUser = nil
+//                            } catch {
+//                                print("unable to sign out")
+//                            }
+//                        }
+//                    } label: {
+//                        HStack {
+//                            Image(systemName: "rectangle.portrait.and.arrow.forward")
+//                                .rotationEffect(.degrees(180))
+//                            Text("Log out")
+//                        }
+//                        .font(.callout)
+//                        .foregroundStyle(.gray)
+//                    }
+//                }

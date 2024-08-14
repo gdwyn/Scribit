@@ -9,7 +9,10 @@ import Foundation
 import SwiftUI
 
 class HomeViewModel: ObservableObject {
-    @Published var columns = [GridItem(.adaptive(minimum: 140))]
+    @Published var columns = [GridItem(.adaptive(minimum: 160), spacing: 18)]
+    
+    @Published var isNavigatingToCanvasView = false
+    @Published var showCreateNew = false
 
     func formattedDate(_ date: Date) -> String {
         let formatter = DateFormatter()

@@ -14,18 +14,37 @@ struct CanvasToolBar: View {
     
     var body: some View {
         HStack {
-            Button {
-                dismiss()
-            } label: {
-                Image(systemName: "chevron.left")
-                    .font(.headline)
-                    .fontWeight(.medium)
-                    .padding(8)
-                    .background(.gray.opacity(0.06), in: Circle())
+            if !canvasVM.isCollaborating {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "chevron.left")
+                        .font(.headline)
+                        .fontWeight(.medium)
+                        .padding(8)
+                        .background(.gray.opacity(0.06), in: Circle())
+                    
+                }
+                .frame(width: 120, alignment: .leading)
+            } else {
+                Button {
+                    canvasVM.unsubscribe()
+                    canvasVM.isCollaborating = false
+                } label: {
+                    HStack {
+                        Image(systemName: "dot.radiowaves.left.and.right")
+                        Text("End")
+                    }
+                    .font(.callout)
+                    .padding(.horizontal, 12)
+                    .padding(.vertical, 8)
+                    .background(.red, in: .capsule)
+                    .foregroundStyle(.white)
+                    .frame(width: 120, alignment: .leading)
 
+                }
+                .transition(.scale)
             }
-            .frame(width: 120, alignment: .leading)
-            
             
             Spacer()
             
@@ -73,24 +92,21 @@ struct CanvasToolBar: View {
                     Button {
                         canvasVM.saveDrawing()
                     } label: {
-                        Image(systemName: "square.and.arrow.down.on.square")
-                            .font(.headline)
-                            .fontWeight(.medium)
+                        HStack {
+                            Image(systemName: "photo.on.rectangle.angled")
+                            Text("Export")
+                        }
+                        .font(.callout)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(.white, in: .capsule)
+                        .foregroundStyle(.gray)
+                        .frame(width: 120, alignment: .trailing)
 
                     }
                     
-//                    Button {
-//                    } label: {
-//                        Image(systemName: "plus")
-//                            .font(.headline)
-//                            .fontWeight(.medium)
-//
-//                    }
-                    
                 }
                 .transition(.scale)
-                .frame(width: 120, alignment: .trailing)
-                
                 
             }
             

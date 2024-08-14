@@ -8,12 +8,11 @@
 import Foundation
 import PencilKit
 import Supabase
+import SwiftUI
 import Realtime
 
 @MainActor
 class CanvasViewModel: ObservableObject {
-    let supabase = Supabase.client
-    
     private var subscriptionTask: Task<Void, Never>?
     
     @Published var currentCanvas = Canvas(id: UUID(), title: "", canvas: PKCanvasView(), date: Date.now, userId: "")
@@ -21,6 +20,7 @@ class CanvasViewModel: ObservableObject {
     @Published var toolPicker = PKToolPicker()
     @Published var toolSelected = false
     @Published var showclearCanvas = false
+    @Published var isCollaborating = false
     
     @Published var shapes: [DraggableShape] = []
     @Published var texts: [DraggableText] = []
@@ -130,7 +130,7 @@ class CanvasViewModel: ObservableObject {
             
             print("Canvas updated successfully")
             
-            // update the local canvas list with the modified canvas (optional)
+            // update the local canvas list with the modified canvas
             if let index = canvasList.firstIndex(where: { $0.id == canvas.id }) {
                 await MainActor.run {
                     self.canvasList[index] = canvas
@@ -142,15 +142,38 @@ class CanvasViewModel: ObservableObject {
         }
     }
     
+    // delete
+    func deleteCanvas(canvas: Canvas) {
+        Task {
+            do {
+                try await Supabase.client
+                    .from("canvases")
+                    .delete()
+                    .eq("id", value: canvas.id.uuidString)
+                    .execute()
+
+                // After successful deletion, remove the canvas from the list
+                await MainActor.run {
+                    withAnimation {
+                        self.canvasList.removeAll { $0.id == canvas.id }
+                    }
+                }
+
+            } catch {
+                print("Error deleting canvas: \(error)")
+            }
+        }
+    }
     
+    // subscribe to realtime
     func subscribeToCanvasChanges(canvasId: UUID) {
-        // Cancel any previous subscription
+        // cancel any previous subscription
         subscriptionTask?.cancel()
 
         subscriptionTask = Task {
-            let channel = supabase.channel("public:canvases")
+            let channel = Supabase.client.channel("public:canvases")
 
-            // Subscribe to updates on the specific canvas ID
+            // subscribe to updates on the specific canvas ID
             let updatesStream = channel.postgresChange(
                 AnyAction.self,
                 schema: "public",
@@ -193,9 +216,9 @@ class CanvasViewModel: ObservableObject {
     }
 
     func joinCollaboration(with canvasId: UUID) async {
-            await fetchCanvasById(canvasId: canvasId)
-            subscribeToCanvasChanges(canvasId: canvasId)
-        }
+        await fetchCanvasById(canvasId: canvasId)
+        subscribeToCanvasChanges(canvasId: canvasId)
+    }
         
     private func fetchCanvasById(canvasId: UUID) async {
         do {
@@ -213,7 +236,8 @@ class CanvasViewModel: ObservableObject {
                   let dateString = canvasData["date"] as? String,
                   let date = ISO8601DateFormatter().date(from: dateString),
                   let drawingData = Data(base64Encoded: base64DrawingData),
-                  let drawing = try? PKDrawing(data: drawingData) else {
+                  let drawing = try? PKDrawing(data: drawingData) 
+            else {
                 print("Failed to fetch or decode canvas")
                 return
             }
