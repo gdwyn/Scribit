@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeToolBar: ToolbarContent {
+    @EnvironmentObject var homeVM: HomeViewModel
     @EnvironmentObject var canvasVM: CanvasViewModel
 
     var body: some ToolbarContent {
@@ -39,9 +40,7 @@ struct HomeToolBar: ToolbarContent {
             if !canvasVM.canvasList.isEmpty {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
-                        Task {
-                            await canvasVM.createCanvas(title: "New canvas")
-                        }
+                        homeVM.showCreateNew = true
                     } label: {
                         Text("New")
                             .font(.subheadline)

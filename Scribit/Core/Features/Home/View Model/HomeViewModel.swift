@@ -14,11 +14,4 @@ class HomeViewModel: ObservableObject {
     @Published var isNavigatingToCanvasView = false
     @Published var showCreateNew = false
 
-    func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        formatter.timeStyle = .none
-        return formatter.string(from: date)
-    }
-
 }

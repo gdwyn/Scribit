@@ -30,11 +30,13 @@ struct CollabView: View {
                             .font(.title.bold())
                             .foregroundStyle(.dark)
 
-                    Button {
-                       canvasId = ""
-                    } label: {
-                        Image(systemName: "xmark")
-                            .foregroundStyle(.gray)
+                    if !canvasId.isEmpty {
+                        Button {
+                            canvasId = ""
+                        } label: {
+                            Image(systemName: "xmark")
+                                .foregroundStyle(.gray)
+                        }
                     }
                     
                     Button {
@@ -52,8 +54,10 @@ struct CollabView: View {
                                 .padding(.vertical, 8)
                                 .background(.accent, in: .capsule)
                                 .foregroundStyle(.white)
+                                .opacity(canvasId.isEmpty ? 0.5 : 1)
+
                         }
-                        .disabled(canvasVM.isCollaborating || canvasId.isEmpty)
+                        .disabled(canvasId.isEmpty)
                         
                     }
                     .padding(.top, 14)

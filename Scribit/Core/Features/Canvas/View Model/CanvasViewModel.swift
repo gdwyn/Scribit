@@ -52,7 +52,9 @@ class CanvasViewModel: ObservableObject {
                 .execute()
             
             DispatchQueue.main.async {
-                self.canvasList.append(newCanvas)
+                withAnimation{
+                    self.canvasList.append(newCanvas)
+                }
             }
         } catch {
             print("Error creating canvas: \(error)")
