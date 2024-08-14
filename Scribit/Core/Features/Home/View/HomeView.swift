@@ -76,6 +76,15 @@ struct HomeView: View {
                     }
                     
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    NavigationLink {
+                        CollaborationView()
+                    } label: {
+                        Image(systemName: "xmark")
+                    }
+                    
+                }
          
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button {
