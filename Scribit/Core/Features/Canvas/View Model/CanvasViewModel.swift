@@ -21,6 +21,7 @@ class CanvasViewModel: ObservableObject {
     @Published var toolSelected = false
     @Published var showclearCanvas = false
     @Published var isCollaborating = false
+    @Published var showStartCollab = false
     
     @Published var shapes: [DraggableShape] = []
     @Published var texts: [DraggableText] = []
@@ -361,4 +362,5 @@ class CanvasViewModel: ObservableObject {
         currentCanvas.canvas.resignFirstResponder()
         toolSelected = false
     }
+    
 }

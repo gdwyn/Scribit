@@ -23,6 +23,7 @@
 		CE9987CF2C6CDECF00685D3A /* HomeToolBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9987CE2C6CDECF00685D3A /* HomeToolBar.swift */; };
 		CE9987D12C6D20F400685D3A /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9987D02C6D20F400685D3A /* CreateView.swift */; };
 		CE9987D32C6D2BD400685D3A /* CanvasCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9987D22C6D2BD400685D3A /* CanvasCard.swift */; };
+		CE9987D62C6D2DA000685D3A /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9987D52C6D2DA000685D3A /* AppUser.swift */; };
 		CEB03B9A2C68EB000006B25E /* Canvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB03B992C68EB000006B25E /* Canvas.swift */; };
 		CEB03B9C2C691CE50006B25E /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB03B9B2C691CE50006B25E /* HomeViewModel.swift */; };
 		CEB03B9E2C6928870006B25E /* EmptyListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEB03B9D2C6928870006B25E /* EmptyListView.swift */; };
@@ -40,6 +41,10 @@
 		CEEFE5692C650C1A000D5BAF /* Supabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE5682C650C1A000D5BAF /* Supabase.swift */; };
 		CEEFE56E2C651317000D5BAF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE56D2C651317000D5BAF /* ContentView.swift */; };
 		CEF0770A2C63D39B00FA01F3 /* Draggables.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF077092C63D39B00FA01F3 /* Draggables.swift */; };
+		CEF50A352C6E114200138EA8 /* StartCollabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A342C6E114200138EA8 /* StartCollabView.swift */; };
+		CEF50A372C6E1F2200138EA8 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A362C6E1F2200138EA8 /* Extensions.swift */; };
+		CEF50A3B2C6E243A00138EA8 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A3A2C6E243A00138EA8 /* ProfileView.swift */; };
+		CEF50A402C6E294E00138EA8 /* LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEF50A3F2C6E294E00138EA8 /* LoadingState.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +58,7 @@
 		CE9987CE2C6CDECF00685D3A /* HomeToolBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeToolBar.swift; sourceTree = "<group>"; };
 		CE9987D02C6D20F400685D3A /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
 		CE9987D22C6D2BD400685D3A /* CanvasCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CanvasCard.swift; sourceTree = "<group>"; };
+		CE9987D52C6D2DA000685D3A /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		CEB03B992C68EB000006B25E /* Canvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Canvas.swift; sourceTree = "<group>"; };
 		CEB03B9B2C691CE50006B25E /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
 		CEB03B9D2C6928870006B25E /* EmptyListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyListView.swift; sourceTree = "<group>"; };
@@ -71,6 +77,10 @@
 		CEEFE5682C650C1A000D5BAF /* Supabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Supabase.swift; sourceTree = "<group>"; };
 		CEEFE56D2C651317000D5BAF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		CEF077092C63D39B00FA01F3 /* Draggables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Draggables.swift; sourceTree = "<group>"; };
+		CEF50A342C6E114200138EA8 /* StartCollabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCollabView.swift; sourceTree = "<group>"; };
+		CEF50A362C6E1F2200138EA8 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		CEF50A3A2C6E243A00138EA8 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		CEF50A3F2C6E294E00138EA8 /* LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingState.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,7 +103,8 @@
 		CE6C91312C61A348000A68EF /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				CEEFE5672C650C08000D5BAF /* Auth */,
+				CEF50A362C6E1F2200138EA8 /* Extensions.swift */,
+				CEF50A3F2C6E294E00138EA8 /* LoadingState.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -154,6 +165,7 @@
 				CEB7E9DA2C628CFA00B92530 /* ToolPickerView.swift */,
 				CE2E15C42C644A4C006C3C7D /* ShapeSelectView.swift */,
 				CE2E15C22C643B7F006C3C7D /* Shapes.swift */,
+				CEF50A342C6E114200138EA8 /* StartCollabView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -181,6 +193,7 @@
 			children = (
 				CEEFE5592C64F641000D5BAF /* Auth */,
 				CE6C91412C61A348000A68EF /* Home */,
+				CEF50A382C6E238900138EA8 /* Profile */,
 				CE6C91482C61A348000A68EF /* Canvas */,
 			);
 			path = Features;
@@ -193,6 +206,22 @@
 				CE6C91372C61A348000A68EF /* Components */,
 			);
 			path = Core;
+			sourceTree = "<group>";
+		};
+		CE9987D42C6D2D8B00685D3A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CE9987D52C6D2DA000685D3A /* AppUser.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		CE9987D72C6D2DCB00685D3A /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CEEFE5682C650C1A000D5BAF /* Supabase.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		CEBA088B2C6180FC00B60A33 = {
@@ -216,6 +245,7 @@
 			children = (
 				CE6C91342C61A348000A68EF /* App */,
 				CE6C914C2C61A348000A68EF /* Core */,
+				CE9987D72C6D2DCB00685D3A /* Services */,
 				CE6C91312C61A348000A68EF /* Utilities */,
 				CEBA089B2C6180FF00B60A33 /* Assets.xcassets */,
 				CEBA089D2C6180FF00B60A33 /* Preview Content */,
@@ -234,6 +264,7 @@
 		CEEFE5592C64F641000D5BAF /* Auth */ = {
 			isa = PBXGroup;
 			children = (
+				CE9987D42C6D2D8B00685D3A /* Model */,
 				CEEFE55A2C64F64B000D5BAF /* View */,
 				CEEFE55B2C64F651000D5BAF /* View Model */,
 			);
@@ -267,14 +298,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		CEEFE5672C650C08000D5BAF /* Auth */ = {
-			isa = PBXGroup;
-			children = (
-				CEEFE5682C650C1A000D5BAF /* Supabase.swift */,
-			);
-			path = Auth;
-			sourceTree = "<group>";
-		};
 		CEF077082C63D38300FA01F3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -282,6 +305,22 @@
 				CEB03B992C68EB000006B25E /* Canvas.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		CEF50A382C6E238900138EA8 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				CEF50A392C6E242D00138EA8 /* View */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		CEF50A392C6E242D00138EA8 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CEF50A3A2C6E243A00138EA8 /* ProfileView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -367,6 +406,7 @@
 			files = (
 				CE9987CF2C6CDECF00685D3A /* HomeToolBar.swift in Sources */,
 				CEBA08982C6180FC00B60A33 /* ScribitApp.swift in Sources */,
+				CEF50A402C6E294E00138EA8 /* LoadingState.swift in Sources */,
 				CE9987CD2C6CD5C000685D3A /* CollabView.swift in Sources */,
 				CE6C915D2C61A3FA000A68EF /* HomeView.swift in Sources */,
 				CEB03B9E2C6928870006B25E /* EmptyListView.swift in Sources */,
@@ -375,10 +415,13 @@
 				CE4EE0392C61DD1A00B9AB61 /* DottedBackgroundView.swift in Sources */,
 				CE6C91612C61A878000A68EF /* DrawingView.swift in Sources */,
 				CEF0770A2C63D39B00FA01F3 /* Draggables.swift in Sources */,
+				CEF50A352C6E114200138EA8 /* StartCollabView.swift in Sources */,
+				CEF50A3B2C6E243A00138EA8 /* ProfileView.swift in Sources */,
 				CE9987D12C6D20F400685D3A /* CreateView.swift in Sources */,
 				CEEFE5602C64FDD1000D5BAF /* AppPasswordField.swift in Sources */,
 				CEB03B9A2C68EB000006B25E /* Canvas.swift in Sources */,
 				CEEFE5692C650C1A000D5BAF /* Supabase.swift in Sources */,
+				CE9987D62C6D2DA000685D3A /* AppUser.swift in Sources */,
 				CE9987D32C6D2BD400685D3A /* CanvasCard.swift in Sources */,
 				CEB7E9D52C62893F00B92530 /* CanvasToolBar.swift in Sources */,
 				CEEFE5622C64FF25000D5BAF /* LoginView.swift in Sources */,
@@ -390,6 +433,7 @@
 				CEB7E9D72C62897A00B92530 /* CanvasViewModel.swift in Sources */,
 				CE2E15C52C644A4C006C3C7D /* ShapeSelectView.swift in Sources */,
 				CEEFE55E2C64F6A8000D5BAF /* AppTextField.swift in Sources */,
+				CEF50A372C6E1F2200138EA8 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

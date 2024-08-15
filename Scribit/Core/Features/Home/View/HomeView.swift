@@ -38,7 +38,13 @@ struct HomeView: View {
             .padding(.horizontal)
             .sheet(isPresented: $homeVM.showCreateNew) {
                 CreateView()
-                    .presentationDragIndicator(.visible) 
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $homeVM.showProfile) {
+                ProfileView(appUser: $appUser)
+                    .presentationDetents([.medium])
+                    .presentationDragIndicator(.visible)
             }
             .toolbar {HomeToolBar()}
             .refreshable {
@@ -55,25 +61,3 @@ struct HomeView: View {
 #Preview {
     HomeView(appUser: .constant(.init(uid: "1234", email: nil)))
 }
-
-
-//                ToolbarItem(placement: .navigationBarLeading) {
-//                    Button {
-//                        Task {
-//                            do {
-//                                try await Supabase.shared.signOut()
-//                                self.appUser = nil
-//                            } catch {
-//                                print("unable to sign out")
-//                            }
-//                        }
-//                    } label: {
-//                        HStack {
-//                            Image(systemName: "rectangle.portrait.and.arrow.forward")
-//                                .rotationEffect(.degrees(180))
-//                            Text("Log out")
-//                        }
-//                        .font(.callout)
-//                        .foregroundStyle(.gray)
-//                    }
-//                }

@@ -1,5 +1,5 @@
 //
-//  AuthManager.swift
+//  Supabase.swift
 //  Scribit
 //
 //  Created by Godwin IE on 08/08/2024.
@@ -7,11 +7,6 @@
 
 import Foundation
 import Supabase
-
-struct AppUser {
-    let uid: String
-    let email: String?
-}
 
 class Supabase {
     

@@ -19,10 +19,10 @@ struct CanvasToolBar: View {
                     dismiss()
                 } label: {
                     Image(systemName: "chevron.left")
-                        .font(.headline)
-                        .fontWeight(.medium)
-                        .padding(8)
-                        .background(.gray.opacity(0.06), in: Circle())
+                        .font(.callout)
+                        .foregroundStyle(.gray)
+                        .padding(12)
+                        .background(.white, in: Circle())
                     
                 }
                 .frame(width: 120, alignment: .leading)
@@ -32,7 +32,7 @@ struct CanvasToolBar: View {
                     canvasVM.isCollaborating = false
                 } label: {
                     HStack {
-                        Image(systemName: "dot.radiowaves.left.and.right")
+                        Image(systemName: "person.line.dotted.person.fill")
                         Text("End")
                     }
                     .font(.callout)
@@ -88,28 +88,38 @@ struct CanvasToolBar: View {
                 .frame(width: 120, alignment: .trailing)
                 
             } else {
-                HStack(spacing: 14) {
+                HStack(spacing: 0) {
+                    Button {
+                        canvasVM.showStartCollab = true
+                    } label: {
+                        Image(systemName: "person.line.dotted.person.fill")
+                            .font(.callout)
+                            .padding(12)
+                            .background(.white, in: .circle)
+                            .foregroundStyle(.gray)
+                            .frame(width: 120, alignment: .trailing)
+                    }
+                    
                     Button {
                         canvasVM.saveDrawing()
                     } label: {
-                        HStack {
-                            Image(systemName: "photo.on.rectangle.angled")
-                            Text("Export")
-                        }
-                        .font(.callout)
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 8)
-                        .background(.white, in: .capsule)
-                        .foregroundStyle(.gray)
-                        .frame(width: 120, alignment: .trailing)
-
+                        Image(systemName: "photo.on.rectangle.angled")
+                            .font(.callout)
+                            .padding(12)
+                            .background(.white, in: .capsule)
+                            .foregroundStyle(.gray)
                     }
-                    
                 }
+                .frame(width: 120, alignment: .trailing)
                 .transition(.scale)
                 
             }
             
+        }
+        .sheet(isPresented: $canvasVM.showStartCollab) {
+            StartCollabView()
+                .presentationDetents([.medium])
+                .presentationDragIndicator(.visible)
         }
     }
 }

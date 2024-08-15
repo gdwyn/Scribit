@@ -14,7 +14,7 @@ struct HomeToolBar: ToolbarContent {
     var body: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
-               
+                homeVM.showProfile = true
             } label: {
                 Image("userprofile")
                     .resizable()
@@ -28,11 +28,11 @@ struct HomeToolBar: ToolbarContent {
                     CollabView()
                 } label: {
                     HStack {
-                        Image(systemName: "dot.radiowaves.left.and.right")
+                        Image(systemName: "person.line.dotted.person.fill")
                         Text("Collaborate")
                     }
                     .font(.subheadline)
-                    .foregroundStyle(.green)
+                    .foregroundStyle(.gray)
                     
                 }
             }

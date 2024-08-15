@@ -105,7 +105,6 @@ struct CanvasView: View {
             canvasVM.setUndoManager(undoManager)
             if true {
                 canvasVM.subscribeToCanvasChanges(canvasId: canvasVM.currentCanvas.id)
-
             }
         }
         .onDisappear {

@@ -13,5 +13,6 @@ class HomeViewModel: ObservableObject {
     
     @Published var isNavigatingToCanvasView = false
     @Published var showCreateNew = false
+    @Published var showProfile = false
 
 }

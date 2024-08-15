@@ -1,59 +1,57 @@
 //
-//  CreateView.swift
+//  StartCollabView.swift
 //  Scribit
 //
-//  Created by Godwin IE on 14/08/2024.
+//  Created by Godwin IE on 15/08/2024.
 //
 
 import SwiftUI
 
-struct CreateView: View {
+struct StartCollabView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
     @Environment(\.dismiss) private var dismiss
 
-    @State private var canvasTitle = ""
-
     var body: some View {
         NavigationStack {
-            VStack {
-                Image(systemName: "applepencil.and.scribble")
+            VStack(spacing: 14) {
+                Image(systemName: "person.line.dotted.person.fill")
                     .font(.largeTitle)
                     .foregroundStyle(.accent)
                     .padding(24)
                     .background(.accent.opacity(0.06), in: Circle())
                 
-                Text ("Create new canvas")
-                
-                VStack(spacing: 14) {
-                    TextField("Enter title", text: $canvasTitle)
-                        .font(.title.bold())
-                        .foregroundStyle(.dark)
+                VStack(spacing: 8) {
+                    Text("Share canvas id")
+                        .font(.callout)
+                        .foregroundStyle(.gray)
+                    
+                    Text(canvasVM.currentCanvas.id.uuidString)
+                        .font(.title2.bold())
                         .multilineTextAlignment(.center)
                     
                     Button {
-                        Task {
-                            await canvasVM.createCanvas(title: canvasTitle)
-                        }
+                        UIPasteboard.general.string = canvasVM.currentCanvas.id.uuidString
+                        canvasVM.isCollaborating = true
                         dismiss()
                     } label: {
-                        Text("Create")
+                        Text("Copy")
                             .padding(.horizontal, 12)
                             .padding(.vertical, 8)
                             .background(.accent, in: .capsule)
                             .foregroundStyle(.white)
-                            .opacity(canvasTitle.isEmpty ? 0.5 : 1)
+                            .padding(4)
                     }
-                    .disabled(canvasTitle.isEmpty)
-                    
                 }
+                
                 Spacer()
             }
             .padding(.top, 24)
-            .padding(.horizontal)
+            .padding()
+            .navigationBarTitleDisplayMode(.inline)
         }
     }
 }
 
 #Preview {
-    CreateView()
+    StartCollabView()
 }
