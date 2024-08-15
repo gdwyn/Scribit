@@ -11,5 +11,5 @@ enum LoadingState {
     case none
     case loading
     case success
-    case error
+    case error(String)
 }

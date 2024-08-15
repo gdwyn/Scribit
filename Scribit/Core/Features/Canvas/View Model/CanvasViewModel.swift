@@ -15,6 +15,7 @@ import Realtime
 class CanvasViewModel: ObservableObject {
     private var subscriptionTask: Task<Void, Never>?
     
+    @Published var loadingState: LoadingState = .none
     @Published var currentCanvas = Canvas(id: UUID(), title: "", canvas: PKCanvasView(), date: Date.now, userId: "")
     @Published var canvasList: [Canvas] = []
     @Published var toolPicker = PKToolPicker()
@@ -65,6 +66,8 @@ class CanvasViewModel: ObservableObject {
     
     // fetch
     func fetchCanvases() async {
+        await MainActor.run { self.loadingState = .loading }
+
         do {
             let currentUser = try await Supabase.shared.getCurrentSession()
             
@@ -108,8 +111,11 @@ class CanvasViewModel: ObservableObject {
             await MainActor.run {
                 self.canvasList = canvasesToSet // main thread
             }
+            
+            await MainActor.run { self.loadingState = .success }
+
         } catch {
-            print("Error fetching canvases: \(error)")
+            await MainActor.run { self.loadingState = .error(error.localizedDescription) }
         }
     }
     

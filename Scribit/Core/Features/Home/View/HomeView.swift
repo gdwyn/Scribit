@@ -17,21 +17,30 @@ struct HomeView: View {
         NavigationStack {
             VStack(alignment: .leading) {
                 
-                if !canvasVM.canvasList.isEmpty {
-                    ScrollView(showsIndicators: false) {
-                        LazyVGrid (columns: homeVM.columns) {
-                            ForEach(canvasVM.canvasList.reversed()) { canvas in
-                                CanvasCard(canvas: canvas)
+                switch canvasVM.loadingState {
+                case .none:
+                    EmptyView()
+                case .loading:
+                    ProgressView()
+                case .success:
+                    if !canvasVM.canvasList.isEmpty {
+                        ScrollView(showsIndicators: false) {
+                            LazyVGrid (columns: homeVM.columns) {
+                                ForEach(canvasVM.canvasList.reversed()) { canvas in
+                                    CanvasCard(canvas: canvas)
+                                }
                             }
                         }
+                        
+                        NavigationLink(destination: CanvasView(), isActive: $homeVM.isNavigatingToCanvasView) {
+                            EmptyView()
+                        }
+                        
+                    } else {
+                        EmptyListView()
                     }
-                    
-                    NavigationLink(destination: CanvasView(), isActive: $homeVM.isNavigatingToCanvasView) {
-                        EmptyView()
-                    }
-                    
-                } else {
-                    EmptyListView()
+                case .error(let message):
+                    Text("Error: \(message)").foregroundColor(.red)
                 }
                 
             }
