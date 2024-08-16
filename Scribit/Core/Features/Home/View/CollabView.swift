@@ -18,12 +18,12 @@ struct CollabView: View {
             if canvasVM.isCollaborating {
                 CanvasView()
                     .transition(.scale)
-                    .onAppear {
-                        canvasVM.subscribeToCanvasChanges(canvasId: canvasVM.currentCanvas.id)
-                    }
-                    .onDisappear {
-                        canvasVM.unsubscribe()
-                    }
+//                    .onAppear {
+//                        canvasVM.subscribeToCanvasChanges(canvasId: canvasVM.currentCanvas.id)
+//                    }
+//                    .onDisappear {
+//                        canvasVM.unsubscribe()
+//                    }
             } else {
                 VStack {
                     Image(systemName: "person.line.dotted.person.fill")
@@ -54,10 +54,8 @@ struct CollabView: View {
                             Button {
                                 if let canvasId = UUID(uuidString: canvasId) {
                                     Task {
-                                        await canvasVM.joinCollaboration(with: canvasId)
-                                        withAnimation {
-                                            canvasVM.isCollaborating = true
-                                        }
+                                        await canvasVM.fetchCanvasById(canvasId: canvasId)
+                                        canvasVM.isCollaborating = true
                                     }
                                 }
                             } label: {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EmptyListView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
+    @EnvironmentObject var homeVM: HomeViewModel
 
     var body: some View {
         VStack(spacing: 14) {
@@ -28,9 +29,7 @@ struct EmptyListView: View {
             }
             
             Button {
-                Task {
-                    await canvasVM.createCanvas(title: "New canvas")
-                }
+                homeVM.showCreateNew = true
             } label: {
                 Text("Start Scribbing")
                     .padding()

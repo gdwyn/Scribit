@@ -75,6 +75,7 @@ struct CanvasToolBar: View {
                     }
                     Task {
                         await canvasVM.updateCanvas(canvas: canvasVM.currentCanvas)
+                        await canvasVM.fetchCanvases()
                     }
                 } label: {
                     Text("Done")

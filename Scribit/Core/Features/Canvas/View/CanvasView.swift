@@ -103,15 +103,10 @@ struct CanvasView: View {
         }
         .onAppear {
             canvasVM.setUndoManager(undoManager)
-            if true {
-                canvasVM.subscribeToCanvasChanges(canvasId: canvasVM.currentCanvas.id)
-            }
+            canvasVM.subscribeToCanvasChanges(canvasId: canvasVM.currentCanvas.id)
         }
         .onDisappear {
-            if true {
-                canvasVM.unsubscribe()
-                canvasVM.isCollaborating = false
-            }
+            canvasVM.unsubscribe()
         }
        
     }

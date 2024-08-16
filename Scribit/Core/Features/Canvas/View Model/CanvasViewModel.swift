@@ -167,6 +167,8 @@ class CanvasViewModel: ObservableObject {
                         self.canvasList.removeAll { $0.id == canvas.id }
                     }
                 }
+                
+                await fetchCanvases()
 
             } catch {
                 print("Error deleting canvas: \(error)")
@@ -194,11 +196,24 @@ class CanvasViewModel: ObservableObject {
 
             for await change in updatesStream {
                 switch change {
+                case .insert(let action):
+                    if let updatedCanvasDataJSON = action.record["canvas"],
+                       case let .string(updatedCanvasData) = updatedCanvasDataJSON {
+                        await applyCanvasUpdate(from: updatedCanvasData)
+                    }
+
+                case .select(let action):
+                    if let updatedCanvasDataJSON = action.record["canvas"],
+                       case let .string(updatedCanvasData) = updatedCanvasDataJSON {
+                        await applyCanvasUpdate(from: updatedCanvasData)
+                    }
+                    
                 case .update(let action):
                     if let updatedCanvasDataJSON = action.record["canvas"],
                        case let .string(updatedCanvasData) = updatedCanvasDataJSON {
                         await applyCanvasUpdate(from: updatedCanvasData)
                     }
+                    
                 default:
                     break
                 }
@@ -224,12 +239,7 @@ class CanvasViewModel: ObservableObject {
         subscriptionTask = nil
     }
 
-    func joinCollaboration(with canvasId: UUID) async {
-        await fetchCanvasById(canvasId: canvasId)
-        subscribeToCanvasChanges(canvasId: canvasId)
-    }
-        
-    private func fetchCanvasById(canvasId: UUID) async {
+    func fetchCanvasById(canvasId: UUID) async {
         do {
             let query = try? await Supabase.client
                 .from("canvases")
@@ -245,7 +255,7 @@ class CanvasViewModel: ObservableObject {
                   let dateString = canvasData["date"] as? String,
                   let date = ISO8601DateFormatter().date(from: dateString),
                   let drawingData = Data(base64Encoded: base64DrawingData),
-                  let drawing = try? PKDrawing(data: drawingData) 
+                  let drawing = try? PKDrawing(data: drawingData)
             else {
                 print("Failed to fetch or decode canvas")
                 return
@@ -261,8 +271,6 @@ class CanvasViewModel: ObservableObject {
             print("Error fetching canvas by ID: \(error)")
         }
     }
-    
-    
     
     func saveDrawing() {
         let drawingImage = currentCanvas.canvas.drawing.image(from: currentCanvas.canvas.drawing.bounds, scale: 1.0)

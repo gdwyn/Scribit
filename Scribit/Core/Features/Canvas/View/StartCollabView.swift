@@ -31,7 +31,6 @@ struct StartCollabView: View {
                     
                     Button {
                         UIPasteboard.general.string = canvasVM.currentCanvas.id.uuidString
-                        canvasVM.isCollaborating = true
                         dismiss()
                     } label: {
                         Text("Copy")
