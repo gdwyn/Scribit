@@ -10,8 +10,9 @@ This project serves as a great example of integrating UIKit components like Penc
 
 ## Features
 
-- **Login and sign up:** This app uses firebase authentication to log in and sign up users.
+- **Login and sign up:** This app uses supabase authentication to log in and sign up users.
 - **Drawing Tools:** Use the PencilKit drawing tools with a custom tool picker interface.
+- **Collaboration:** Scribit allows users collaborate in real-time by joining a canvas or by sharing theirs.
 - **Shapes and Texts:** Add and drag shapes or text around the canvas with ease.
 - **Undo/Redo Support:** Comprehensive undo/redo functionality for all canvas actions.
 - **Zoom & Pan:** Utilize pinch-to-zoom and pan functionality for a closer look at your drawings.
@@ -42,12 +43,6 @@ https://github.com/user-attachments/assets/b38169ed-57e2-4f2c-b492-5788302f3ad3
 3. **Build and Run:**
    - Select your target device or simulator.
    - Click the "Run" button in Xcode.
-
-### Future Improvements
-
-- **Persistence:** Implement more robust data storage
-- **Shape and tex Customization:** Allow users to customize shape and text colors, sizes, and styles.
-- **Real time collaboration:** Add the ability to collaborate with other users in real time.
 
 ## Contributing
 
