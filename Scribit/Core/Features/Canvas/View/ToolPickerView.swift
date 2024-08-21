@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ToolPickerView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
+    @State private var showChat = false
     
     var body: some View {
         if !canvasVM.toolSelected {
@@ -46,6 +47,17 @@ struct ToolPickerView: View {
                 
                 Button {
                     withAnimation {
+                        showChat = true
+                    }
+                } label: {
+                    Image(systemName: "plus")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.red)
+                }
+                
+                Button {
+                    withAnimation {
                         canvasVM.showclearCanvas = true
                     }
                 } label: {
@@ -54,6 +66,9 @@ struct ToolPickerView: View {
                         .fontWeight(.medium)
                         .foregroundStyle(.red)
                 }
+            }
+            .sheet(isPresented: $showChat) {
+                ChatView()
             }
             .frame(alignment: .bottom)
             .padding(14)
