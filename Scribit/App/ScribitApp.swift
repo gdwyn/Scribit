@@ -12,6 +12,7 @@ struct ScribitApp: App {
     @StateObject var authVM = AuthViewModel()
     @StateObject var canvasVM = CanvasViewModel()
     @StateObject var homeVM = HomeViewModel()
+    @StateObject var chatVM = ChatViewModel()
     
     var body: some Scene {
         WindowGroup {
@@ -19,6 +20,7 @@ struct ScribitApp: App {
                 .environmentObject(canvasVM)
                 .environmentObject(authVM)
                 .environmentObject(homeVM)
+                .environmentObject(chatVM)
         }
     }
 }

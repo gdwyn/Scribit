@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct ChatMessage: Identifiable {
+struct ChatMessage: Identifiable, Equatable {
     let id: UUID
     let canvasId: String
     let userId: String

@@ -102,7 +102,6 @@ struct CanvasView: View {
             .navigationBarBackButtonHidden()
         }
         .onAppear {
-            canvasVM.chatMessages.removeAll()
             canvasVM.setUndoManager(undoManager)
             canvasVM.subscribeToCanvasChanges(canvasId: canvasVM.currentCanvas.id)
         }

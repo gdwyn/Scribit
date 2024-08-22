@@ -50,10 +50,9 @@ struct ToolPickerView: View {
                         showChat = true
                     }
                 } label: {
-                    Image(systemName: "plus")
+                    Image(systemName: "message.badge.waveform")
                         .font(.title3)
                         .fontWeight(.medium)
-                        .foregroundStyle(.red)
                 }
                 
                 Button {
