@@ -18,12 +18,6 @@ struct CollabView: View {
             if canvasVM.isCollaborating {
                 CanvasView()
                     .transition(.scale)
-//                    .onAppear {
-//                        canvasVM.subscribeToCanvasChanges(canvasId: canvasVM.currentCanvas.id)
-//                    }
-//                    .onDisappear {
-//                        canvasVM.unsubscribe()
-//                    }
             } else {
                 VStack {
                     Image(systemName: "person.line.dotted.person.fill")

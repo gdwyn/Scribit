@@ -50,7 +50,7 @@ struct ToolPickerView: View {
                         showChat = true
                     }
                 } label: {
-                    Image(systemName: "message.badge.waveform")
+                    Image(systemName: "ellipsis.bubble")
                         .font(.title3)
                         .fontWeight(.medium)
                 }

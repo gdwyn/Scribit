@@ -34,6 +34,8 @@
 		CEBA08982C6180FC00B60A33 /* ScribitApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBA08972C6180FC00B60A33 /* ScribitApp.swift */; };
 		CEBA089C2C6180FF00B60A33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBA089B2C6180FF00B60A33 /* Assets.xcassets */; };
 		CEBA089F2C6180FF00B60A33 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CEBA089E2C6180FF00B60A33 /* Preview Assets.xcassets */; };
+		CEE7A8792C77A4710053648A /* ChatTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7A8782C77A4710053648A /* ChatTextField.swift */; };
+		CEE7A87B2C77A5310053648A /* EmptyMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEE7A87A2C77A5310053648A /* EmptyMessageView.swift */; };
 		CEEFE55E2C64F6A8000D5BAF /* AppTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE55D2C64F6A8000D5BAF /* AppTextField.swift */; };
 		CEEFE5602C64FDD1000D5BAF /* AppPasswordField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE55F2C64FDD1000D5BAF /* AppPasswordField.swift */; };
 		CEEFE5622C64FF25000D5BAF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEEFE5612C64FF25000D5BAF /* LoginView.swift */; };
@@ -74,6 +76,8 @@
 		CEBA08972C6180FC00B60A33 /* ScribitApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScribitApp.swift; sourceTree = "<group>"; };
 		CEBA089B2C6180FF00B60A33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CEBA089E2C6180FF00B60A33 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		CEE7A8782C77A4710053648A /* ChatTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTextField.swift; sourceTree = "<group>"; };
+		CEE7A87A2C77A5310053648A /* EmptyMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyMessageView.swift; sourceTree = "<group>"; };
 		CEEFE55D2C64F6A8000D5BAF /* AppTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTextField.swift; sourceTree = "<group>"; };
 		CEEFE55F2C64FDD1000D5BAF /* AppPasswordField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPasswordField.swift; sourceTree = "<group>"; };
 		CEEFE5612C64FF25000D5BAF /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
@@ -355,6 +359,8 @@
 			children = (
 				CEFACD7E2C7704CE00BF63F1 /* ChatView.swift */,
 				CEFACD822C77125800BF63F1 /* ChatBubble.swift */,
+				CEE7A8782C77A4710053648A /* ChatTextField.swift */,
+				CEE7A87A2C77A5310053648A /* EmptyMessageView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -462,6 +468,7 @@
 				CE6C91612C61A878000A68EF /* DrawingView.swift in Sources */,
 				CEF0770A2C63D39B00FA01F3 /* Draggables.swift in Sources */,
 				CEF50A352C6E114200138EA8 /* StartCollabView.swift in Sources */,
+				CEE7A8792C77A4710053648A /* ChatTextField.swift in Sources */,
 				CEF50A3B2C6E243A00138EA8 /* ProfileView.swift in Sources */,
 				CE9987D12C6D20F400685D3A /* CreateView.swift in Sources */,
 				CEEFE5602C64FDD1000D5BAF /* AppPasswordField.swift in Sources */,
@@ -475,6 +482,7 @@
 				CEEFE5642C650769000D5BAF /* SignupView.swift in Sources */,
 				CE2E15C32C643B7F006C3C7D /* Shapes.swift in Sources */,
 				CEB7E9DB2C628CFA00B92530 /* ToolPickerView.swift in Sources */,
+				CEE7A87B2C77A5310053648A /* EmptyMessageView.swift in Sources */,
 				CEEFE5662C6507D0000D5BAF /* AuthViewModel.swift in Sources */,
 				CEEFE56E2C651317000D5BAF /* ContentView.swift in Sources */,
 				CEB7E9D72C62897A00B92530 /* CanvasViewModel.swift in Sources */,

@@ -10,77 +10,78 @@ import SwiftUI
 struct ChatView: View {
     @EnvironmentObject var canvasVM : CanvasViewModel
     @EnvironmentObject var chatVM : ChatViewModel
+    
+    @Environment(\.dismiss) private var dismiss
+
     @State var appUser: AppUser?
 
-    @State private var messageText: String = ""
-    @State var selectedMessage: UUID? = nil
-
     var body: some View {
-        VStack (alignment: .leading) {
-            
-            if chatVM.chatMessages.isEmpty {
-                
-            } else {
-                ScrollView(.vertical, showsIndicators: false) {
-                    LazyVStack (alignment: .trailing, spacing: 24) {
-                        ForEach(chatVM.chatMessages) { message in
-                            ChatBubble(appUser: appUser, message: message)
-                        }
-                    }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .scrollTargetLayout()
-                }
-                .padding(.bottom)
-                .animation(.bouncy, value: chatVM.chatMessages)
-                .defaultScrollAnchor(.bottom)
-                .scrollBounceBehavior(.basedOnSize)
-                .scrollPosition(id: $selectedMessage, anchor: .bottom)
-                .onChange(of: chatVM.chatMessages) {
-                    selectedMessage = chatVM.chatMessages.last?.id
-                }
-                .animation(.snappy, value: selectedMessage)
-                .refreshable {
-                    Task {
-                        await chatVM.fetchChatMessages(for: canvasVM.currentCanvas.id)
-                    }
-                }
-                
-            }
-            
+        VStack(spacing: 0) {
             HStack {
-                TextField("Write something...", text: $messageText)
-                    .padding(8)
+                Text("Messages")
+                    .font(.title.weight(.semibold))
+                Spacer()
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .foregroundStyle(.gray)
+                }
+            }
+            .padding(.vertical)
+            switch chatVM.loadingState {
+            case .none:
+                EmptyView()
+            case .loading:
+                Spacer()
+                ProgressView()
+                Spacer()
+            case .success:
                 
-                if !messageText.isEmpty {
-                    Button(action: {
+                if chatVM.chatMessages.isEmpty {
+                    Spacer()
+                    EmptyMessageView()
+                    Spacer()
+                } else {
+                    ScrollView(.vertical, showsIndicators: false) {
+                        LazyVStack (alignment: .trailing, spacing: 24) {
+                            ForEach(chatVM.chatMessages) { message in
+                                ChatBubble(appUser: appUser, message: message)
+                            }
+                        }
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .scrollTargetLayout()
+                    }
+                    .padding(.bottom)
+                    .animation(.bouncy, value: chatVM.chatMessages)
+                    .defaultScrollAnchor(.bottom)
+                    .scrollBounceBehavior(.basedOnSize)
+                    .scrollPosition(id: $chatVM.selectedMessage, anchor: .bottom)
+                    .onChange(of: chatVM.chatMessages) {
+                        chatVM.selectedMessage = chatVM.chatMessages.last?.id
+                    }
+                    .animation(.snappy, value: chatVM.selectedMessage)
+                    .refreshable {
                         Task {
-                            await chatVM.sendMessage(canvasId: canvasVM.currentCanvas.id.uuidString, message: messageText)
-                            messageText = ""
                             await chatVM.fetchChatMessages(for: canvasVM.currentCanvas.id)
                         }
-                    }, label: {
-                        Image(systemName: "paperplane.circle.fill")
-                            .foregroundStyle(.accent)
-                            .font(.title2)
-                    })
-                    .transition(.opacity.combined(with: .scale))
+                    }
+                    
                 }
-
+            case .error(let string):
+                Text(string)
             }
-            .padding(8)
-            .background(.gray.opacity(0.06), in: Capsule())
-            .background(
-                Rectangle()
-                    .foregroundStyle(Color(uiColor: .systemBackground))
-                    .edgesIgnoringSafeArea(.bottom)
-            )
-            .ignoresSafeArea(.container, edges: .bottom)
+            
+            ChatTextField()
         }
         .padding(.horizontal)
         .onAppear{
             chatVM.subscribeToChatMessages(canvasId: canvasVM.currentCanvas.id.uuidString)
             Task {
+                chatVM.loadingState = .loading
                 await chatVM.fetchChatMessages(for: canvasVM.currentCanvas.id)
+                chatVM.loadingState = .success
+
                 self.appUser = try await Supabase.shared.getCurrentSession()
             }
         }
