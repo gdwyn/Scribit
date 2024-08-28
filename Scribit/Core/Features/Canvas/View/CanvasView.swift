@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CanvasView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
+    @EnvironmentObject var chatVM: ChatViewModel
     @State private var currentLocation: CGPoint = .init(x: 40, y: 80)
     
     @Environment(\.dismiss) private var dismiss
@@ -101,12 +102,14 @@ struct CanvasView: View {
             }
             .navigationBarBackButtonHidden()
         }
-        .onAppear {
+        .task {
+            await canvasVM.subscribeToCanvas(canvasId: canvasVM.currentCanvas.id)
             canvasVM.setUndoManager(undoManager)
-            canvasVM.subscribeToCanvasChanges(canvasId: canvasVM.currentCanvas.id)
         }
         .onDisappear {
-            canvasVM.unsubscribe()
+            Task {
+                await canvasVM.unsubscribe()
+            }
         }
        
     }

@@ -8,18 +8,13 @@
 import Foundation
 import Supabase
 
-@MainActor
 class ChatViewModel: ObservableObject {
-    private var subscriptionTask: Task<Void, Never>?
-    
     @Published var chatMessages = [ChatMessage]()
     @Published var loadingState: LoadingState = .none
     @Published var messageText: String = ""
     @Published var selectedMessage: UUID? = nil
     
     func fetchChatMessages(for canvasId: UUID) async {
-      //  await MainActor.run { self.loadingState = .loading }
-
         do {
             let query = try? await Supabase.client
                 .from("messages")
@@ -34,7 +29,7 @@ class ChatViewModel: ObservableObject {
                 return
             }
             
-            var messages: [ChatMessage] = []
+            var fetchedMessages: [ChatMessage] = []
             for item in result {
                 if let idString = item["id"] as? String,
                    let id = UUID(uuidString: idString),
@@ -43,19 +38,19 @@ class ChatViewModel: ObservableObject {
                    let timestampString = item["timestamp"] as? String,
                    let timestamp = ISO8601DateFormatter().date(from: timestampString) {
                     let chatMessage = ChatMessage(id: id, canvasId: canvasId.uuidString, userId: userId, message: message, timestamp: timestamp)
-                    messages.append(chatMessage)
+                    fetchedMessages.append(chatMessage)
                 }
             }
             
-            await MainActor.run {
-                    self.chatMessages = messages
+            let messages = fetchedMessages
+
+            DispatchQueue.main.async {
+                self.chatMessages = messages
             }
             
         } catch {
             print("Error fetching chat messages: \(error)")
         }
-       // await MainActor.run { self.loadingState = .success }
-
     }
 
     func sendMessage(canvasId: String, message: String) async {
@@ -79,18 +74,20 @@ class ChatViewModel: ObservableObject {
         }
     }
     
-    func subscribeToChatMessages(canvasId: String) {
+    func subscribeToChatMessages(canvasId: String) async {
         let channel = Supabase.client.channel("public:messages")
-
-        let chatUpdates = channel.postgresChange(
-            AnyAction.self,
-            schema: "public",
-            table: "messages",
-            filter: "canvasId=eq.\(canvasId)"
-        )
-
+        
         Task {
+            
+            let chatUpdates = channel.postgresChange(
+                AnyAction.self,
+                schema: "public",
+                table: "messages",
+                filter: "canvasId=eq.\(canvasId)"
+            )
+            
             await channel.subscribe()
+            
             for await change in chatUpdates {
                 switch change {
                 case .insert(let action):
@@ -104,7 +101,7 @@ class ChatViewModel: ObservableObject {
                        let timestampJSON = action.record["timestamp"],
                        case let .string(timestampString) = timestampJSON,
                        let timestamp = ISO8601DateFormatter().date(from: timestampString) {
-
+                        
                         let newMessage = ChatMessage(
                             id: id,
                             canvasId: canvasId,
@@ -113,7 +110,7 @@ class ChatViewModel: ObservableObject {
                             timestamp: timestamp
                         )
                         
-                        await MainActor.run {
+                        DispatchQueue.main.async {
                             self.chatMessages.append(newMessage)
                         }
                     }
@@ -124,4 +121,9 @@ class ChatViewModel: ObservableObject {
         }
     }
 
+//    func unsubscribe() async {
+//        let channel = Supabase.client.channel("public:messages")
+//        await Supabase.client.removeChannel(channel)
+//    }
+    
 }

@@ -12,9 +12,7 @@ struct ChatView: View {
     @EnvironmentObject var chatVM : ChatViewModel
     
     @Environment(\.dismiss) private var dismiss
-
-    @State var appUser: AppUser?
-
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack {
@@ -46,7 +44,7 @@ struct ChatView: View {
                     ScrollView(.vertical, showsIndicators: false) {
                         LazyVStack (alignment: .trailing, spacing: 24) {
                             ForEach(chatVM.chatMessages) { message in
-                                ChatBubble(appUser: appUser, message: message)
+                                ChatBubble(message: message)
                             }
                         }
                         .frame(maxWidth: .infinity, alignment: .trailing)
@@ -55,7 +53,7 @@ struct ChatView: View {
                     .padding(.bottom)
                     .animation(.bouncy, value: chatVM.chatMessages)
                     .defaultScrollAnchor(.bottom)
-                    .scrollBounceBehavior(.basedOnSize)
+                    //.scrollBounceBehavior(.basedOnSize)
                     .scrollPosition(id: $chatVM.selectedMessage, anchor: .bottom)
                     .onChange(of: chatVM.chatMessages) {
                         chatVM.selectedMessage = chatVM.chatMessages.last?.id
@@ -75,16 +73,17 @@ struct ChatView: View {
             ChatTextField()
         }
         .padding(.horizontal)
-        .onAppear{
-            chatVM.subscribeToChatMessages(canvasId: canvasVM.currentCanvas.id.uuidString)
-            Task {
-                chatVM.loadingState = .loading
-                await chatVM.fetchChatMessages(for: canvasVM.currentCanvas.id)
-                chatVM.loadingState = .success
-
-                self.appUser = try await Supabase.shared.getCurrentSession()
-            }
+        .task {
+            chatVM.loadingState = .loading
+            await chatVM.fetchChatMessages(for: canvasVM.currentCanvas.id)
+            await chatVM.subscribeToChatMessages(canvasId: canvasVM.currentCanvas.id.uuidString)
+            chatVM.loadingState = .success
         }
+//        .onDisappear {
+//            Task {
+//                await chatVM.unsubscribe()
+//            }
+//        }
     }
 }
 

@@ -9,9 +9,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
+    @EnvironmentObject var authVM: AuthViewModel
     @Environment(\.dismiss) private var dismiss
-
-    @Binding var appUser: AppUser?
 
     var body: some View {
         NavigationStack {
@@ -22,9 +21,9 @@ struct ProfileView: View {
                     .frame(width: 48)
                 
                 VStack(spacing: 8) {
-                    Text(appUser?.email ?? "user")
+                    Text(authVM.appUser?.email ?? "user")
                     
-                    Text(appUser?.uid ?? "user id")
+                    Text(authVM.appUser?.uid ?? "user id")
                         .font(.callout)
                         .foregroundStyle(.gray)
                         .multilineTextAlignment(.center)
@@ -36,7 +35,7 @@ struct ProfileView: View {
                         Task {
                             do {
                                 try await Supabase.shared.signOut()
-                                self.appUser = nil
+                                authVM.appUser = nil
                             } catch {
                                 print("unable to sign out")
                             }
@@ -62,5 +61,5 @@ struct ProfileView: View {
 }
 
 #Preview {
-    ProfileView(appUser: .constant(.init(uid: "1234", email: nil)))
+    ProfileView()
 }

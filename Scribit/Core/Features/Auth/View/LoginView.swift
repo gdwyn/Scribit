@@ -13,8 +13,6 @@ struct LoginView: View {
     @State private var password = ""
     @State private var showSignUp = false
     
-    @Binding var appUser: AppUser?
-
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 24) {
@@ -47,7 +45,7 @@ struct LoginView: View {
                         Task {
                             do {
                                 let appUser = try await authVM.logIn(email: email, password: password)
-                                self.appUser = appUser
+                                authVM.appUser = appUser
                             } catch {
                                 print("issue with sign in")
                             }
@@ -68,7 +66,7 @@ struct LoginView: View {
                             showSignUp = true
                         }
                         .sheet(isPresented: $showSignUp) {
-                            SignupView(appUser: $appUser)
+                            SignupView()
                         }
                     }
                 }
@@ -79,5 +77,5 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView(appUser: .constant(.init(uid: "1234", email: nil)))
+    LoginView()
 }

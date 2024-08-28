@@ -8,30 +8,30 @@
 import SwiftUI
 
 struct ChatBubble: View {
-    var appUser: AppUser?
     let message: ChatMessage
     
     @EnvironmentObject var chatVM : ChatViewModel
+    @EnvironmentObject var authVM : AuthViewModel
     
     var body: some View {
-        VStack(alignment: appUser?.email == message.userId ? .trailing : .leading) {
+        VStack(alignment: authVM.appUser?.email == message.userId ? .trailing : .leading) {
             Text(message.userId)
                 .font(.footnote)
                 .foregroundStyle(.gray)
             
             Text(message.message)
-                .multilineTextAlignment(appUser?.email == message.userId ? .trailing : .leading)
+                .multilineTextAlignment(authVM.appUser?.email == message.userId ? .trailing : .leading)
                 .padding()
                 .background(
-                    appUser?.email == message.userId ? .accent : .gray.opacity(0.06), in: RoundedRectangle(cornerRadius: 16)
+                    authVM.appUser?.email == message.userId ? .accent : .gray.opacity(0.06), in: RoundedRectangle(cornerRadius: 16)
                 )
-                .foregroundStyle(appUser?.email == message.userId ? .white : .dark)
+                .foregroundStyle(authVM.appUser?.email == message.userId ? .white : .dark)
 
             Text(message.timestamp, format: .dateTime.hour().minute())
                 .font(.footnote)
                 .foregroundStyle(.gray)
         }
-        .frame(maxWidth: .infinity, alignment: appUser?.email == message.userId ? .trailing : .leading)
+        .frame(maxWidth: .infinity, alignment: authVM.appUser?.email == message.userId ? .trailing : .leading)
 
     }
 

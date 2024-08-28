@@ -8,19 +8,19 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var appUser: AppUser? = nil
+    @EnvironmentObject var authVM: AuthViewModel
 
     var body: some View {
         ZStack {
-            if appUser != nil {
-                HomeView(appUser: $appUser)
+            if authVM.appUser != nil {
+                HomeView()
             } else {
-                LoginView(appUser: $appUser)
+                LoginView()
             }
         }
         .onAppear {
             Task {
-                self.appUser = try await Supabase.shared.getCurrentSession()
+                authVM.appUser = try await Supabase.shared.getCurrentSession()
             }
         }
     }

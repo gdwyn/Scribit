@@ -68,6 +68,7 @@ struct ToolPickerView: View {
             }
             .sheet(isPresented: $showChat) {
                 ChatView()
+                    .interactiveDismissDisabled()
             }
             .frame(alignment: .bottom)
             .padding(14)

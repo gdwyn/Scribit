@@ -10,9 +10,8 @@ import SwiftUI
 struct HomeView: View {
     @EnvironmentObject var homeVM: HomeViewModel
     @EnvironmentObject var canvasVM: CanvasViewModel
-    
-    @Binding var appUser: AppUser?
-    
+    @EnvironmentObject var authVM: AuthViewModel
+        
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
@@ -51,7 +50,7 @@ struct HomeView: View {
                     .presentationDragIndicator(.visible)
             }
             .sheet(isPresented: $homeVM.showProfile) {
-                ProfileView(appUser: $appUser)
+                ProfileView()
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.visible)
             }
@@ -68,5 +67,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView(appUser: .constant(.init(uid: "1234", email: nil)))
+    HomeView()
 }

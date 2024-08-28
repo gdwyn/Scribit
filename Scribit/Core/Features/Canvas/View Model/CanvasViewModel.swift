@@ -11,10 +11,7 @@ import Supabase
 import SwiftUI
 import Realtime
 
-@MainActor
-class CanvasViewModel: ObservableObject {
-    private var subscriptionTask: Task<Void, Never>?
-    
+class CanvasViewModel: ObservableObject {    
     @Published var loadingState: LoadingState = .none
     @Published var currentCanvas = Canvas(id: UUID(), title: "", canvas: PKCanvasView(), date: Date.now, userId: "")
     @Published var canvasList: [Canvas] = []
@@ -30,15 +27,15 @@ class CanvasViewModel: ObservableObject {
     
     @Published var selectedTextID: UUID? = nil
     @Published var editingText: String = ""
-        
+    
     private var undoManager: UndoManager?
     
     // create
     func createCanvas(title: String) async {
         do {
             let currentUser = try await Supabase.shared.getCurrentSession()
-            let newCanvasView = PKCanvasView()
-            let drawingData = newCanvasView.drawing.dataRepresentation()
+            let newCanvasView = await PKCanvasView()
+            let drawingData = await newCanvasView.drawing.dataRepresentation()
             let base64DrawingData = drawingData.base64EncodedString()
             
             let newCanvas = Canvas(id: UUID(), title: title, canvas: newCanvasView, date: Date.now, userId: currentUser.uid)
@@ -67,7 +64,7 @@ class CanvasViewModel: ObservableObject {
     // fetch
     func fetchCanvases() async {
         await MainActor.run { self.loadingState = .loading }
-
+        
         do {
             let currentUser = try await Supabase.shared.getCurrentSession()
             
@@ -95,7 +92,7 @@ class CanvasViewModel: ObservableObject {
                     
                     if let drawingData = Data(base64Encoded: base64DrawingData),
                        let drawing = try? PKDrawing(data: drawingData) {
-                        let canvasView = PKCanvasView()
+                        let canvasView = await PKCanvasView()
                         
                         await MainActor.run {
                             canvasView.drawing = drawing // main thread
@@ -113,7 +110,7 @@ class CanvasViewModel: ObservableObject {
             }
             
             await MainActor.run { self.loadingState = .success }
-
+            
         } catch {
             await MainActor.run { self.loadingState = .error(error.localizedDescription) }
         }
@@ -123,7 +120,7 @@ class CanvasViewModel: ObservableObject {
     func updateCanvas(canvas: Canvas) async {
         do {
             // convert the drawing to base64
-            let drawingData = canvas.canvas.drawing.dataRepresentation()
+            let drawingData = await canvas.canvas.drawing.dataRepresentation()
             let base64DrawingData = drawingData.base64EncodedString()
             
             // cpdate the canvas in Supabase
@@ -132,7 +129,7 @@ class CanvasViewModel: ObservableObject {
                 .update([
                     "title": canvas.title,
                     "canvas": base64DrawingData,
-                   // "date": ISO8601DateFormatter().string(from: canvas.date)
+                    // "date": ISO8601DateFormatter().string(from: canvas.date)
                 ])
                 .eq("id", value: canvas.id.uuidString)
                 .execute()
@@ -160,7 +157,7 @@ class CanvasViewModel: ObservableObject {
                     .delete()
                     .eq("id", value: canvas.id.uuidString)
                     .execute()
-
+                
                 // After successful deletion, remove the canvas from the list
                 await MainActor.run {
                     withAnimation {
@@ -169,54 +166,48 @@ class CanvasViewModel: ObservableObject {
                 }
                 
                 await fetchCanvases()
-
+                
             } catch {
                 print("Error deleting canvas: \(error)")
             }
         }
     }
     
-    // subscribe to realtime
-    func subscribeToCanvasChanges(canvasId: UUID) {
-        // cancel any previous subscription
-        subscriptionTask?.cancel()
-
-        subscriptionTask = Task {
-            let channel = Supabase.client.channel("public:canvases")
-
-            // subscribe to updates on the specific canvas ID
-            let updatesStream = channel.postgresChange(
-                AnyAction.self,
-                schema: "public",
-                table: "canvases",
-                filter: "id=eq.\(canvasId.uuidString)"
-            )
-
-            await channel.subscribe()
-
-            for await change in updatesStream {
-                switch change {
-                case .insert(let action):
-                    if let updatedCanvasDataJSON = action.record["canvas"],
-                       case let .string(updatedCanvasData) = updatedCanvasDataJSON {
-                        await applyCanvasUpdate(from: updatedCanvasData)
-                    }
-
-                case .select(let action):
-                    if let updatedCanvasDataJSON = action.record["canvas"],
-                       case let .string(updatedCanvasData) = updatedCanvasDataJSON {
-                        await applyCanvasUpdate(from: updatedCanvasData)
-                    }
-                    
-                case .update(let action):
-                    if let updatedCanvasDataJSON = action.record["canvas"],
-                       case let .string(updatedCanvasData) = updatedCanvasDataJSON {
-                        await applyCanvasUpdate(from: updatedCanvasData)
-                    }
-                    
-                default:
-                    break
+    func subscribeToCanvas(canvasId: UUID) async {
+        
+        let channel = Supabase.client.channel("public:canvases")
+        
+        let changeStream = channel.postgresChange(
+            AnyAction.self,
+            schema: "public",
+            table: "canvases",
+            filter: "id=eq.\(canvasId.uuidString)"
+        )
+        
+        await channel.subscribe()
+        
+        for await change in changeStream {
+            switch change {
+            case .insert(let action):
+                if let updatedCanvasDataJSON = action.record["canvas"],
+                   case let .string(updatedCanvasData) = updatedCanvasDataJSON {
+                    await applyCanvasUpdate(from: updatedCanvasData)
                 }
+                
+            case .update(let action):
+                if let updatedCanvasDataJSON = action.record["canvas"],
+                   case let .string(updatedCanvasData) = updatedCanvasDataJSON {
+                    await applyCanvasUpdate(from: updatedCanvasData)
+                }
+                
+            case .select(let action):
+                if let updatedCanvasDataJSON = action.record["canvas"],
+                   case let .string(updatedCanvasData) = updatedCanvasDataJSON {
+                    await applyCanvasUpdate(from: updatedCanvasData)
+                }
+                
+            default:
+                break
             }
         }
     }
@@ -228,15 +219,17 @@ class CanvasViewModel: ObservableObject {
             return
         }
 
-        await MainActor.run {
-            currentCanvas.canvas.drawing = drawing
+        let updatedDrawing = drawing
+        
+        DispatchQueue.main.async {
+            self.currentCanvas.canvas.drawing = updatedDrawing
         }
     }
 
-
-    func unsubscribe() {
-        subscriptionTask?.cancel()
-        subscriptionTask = nil
+    func unsubscribe() async {
+//        let channel = Supabase.client.channel("public:canvases")
+//        await Supabase.client.removeChannel(channel)
+        await Supabase.client.removeAllChannels()
     }
 
     func fetchCanvasById(canvasId: UUID) async {
@@ -261,10 +254,15 @@ class CanvasViewModel: ObservableObject {
                 return
             }
             
-            let canvasView = PKCanvasView()
-            canvasView.drawing = drawing
+            let canvasView = await PKCanvasView()
             
-            await MainActor.run {
+            let fetchedDrawing = drawing
+            
+            DispatchQueue.main.async {
+                canvasView.drawing = fetchedDrawing
+            }
+            
+            DispatchQueue.main.async {
                 self.currentCanvas = Canvas(id: canvasId, title: title, canvas: canvasView, date: date, userId: "")
             }
         } catch {

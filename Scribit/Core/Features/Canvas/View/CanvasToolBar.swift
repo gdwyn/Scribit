@@ -28,7 +28,9 @@ struct CanvasToolBar: View {
                 .frame(width: 120, alignment: .leading)
             } else {
                 Button {
-                    canvasVM.unsubscribe()
+                    Task {
+                        await canvasVM.unsubscribe()
+                    }
                     canvasVM.isCollaborating = false
                 } label: {
                     HStack {
@@ -98,7 +100,6 @@ struct CanvasToolBar: View {
                             .padding(12)
                             .background(.white, in: .circle)
                             .foregroundStyle(.gray)
-                            .frame(width: 120, alignment: .trailing)
                     }
                     
                     Button {

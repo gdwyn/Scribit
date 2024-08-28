@@ -13,9 +13,7 @@ struct SignupView: View {
     
     @State private var email = ""
     @State private var password = ""
-    
-    @Binding var appUser: AppUser?
-    
+        
     var body: some View {
         ScrollView(showsIndicators: false) {
         VStack(alignment: .leading, spacing: 24) {
@@ -47,7 +45,7 @@ struct SignupView: View {
                     Task {
                         do {
                             let appUser = try await authVM.signUp(email: email, password: password)
-                            self.appUser = appUser
+                            authVM.appUser = appUser
                             dismiss()
                         } catch {
                             print("issue with sign up")
@@ -78,5 +76,5 @@ struct SignupView: View {
 }
 
 #Preview {
-    SignupView(appUser: .constant(.init(uid: "1234", email: nil)))
+    SignupView()
 }

@@ -8,6 +8,8 @@
 import Foundation
 
 class AuthViewModel: ObservableObject {
+    @Published var appUser: AppUser? = nil
+
     func isFormValid(email: String, password: String) -> Bool {
             guard email.isValidEmail(), password.count > 6 else {
                 return false
