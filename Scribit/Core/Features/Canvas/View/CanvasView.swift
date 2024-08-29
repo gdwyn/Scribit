@@ -87,8 +87,8 @@ struct CanvasView: View {
                     if canvasVM.showShapes {
                         ShapeSelectView()
                     } else {
-                        VStack {
-                            HStack(spacing: -10) {
+                        HStack {
+                            HStack(spacing: -12) {
                                 ForEach(canvasVM.activeUsers) { user in
                                     if let userInitial = user.email.first {
                                         Text(String(userInitial))
@@ -99,11 +99,16 @@ struct CanvasView: View {
                                             .overlay(
                                                 Circle().stroke(Color.white, lineWidth: 3)
                                                )
-                                            .animation(.spring, value: canvasVM.activeUsers)                                    
+                                            .animation(.snappy, value: canvasVM.activeUsers)
                                     }
                                 }
                             }
+                            
+                            Spacer()
+                            
                             ToolPickerView()
+                                .padding(.horizontal)
+
                         }
                     }
         

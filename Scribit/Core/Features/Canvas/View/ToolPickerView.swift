@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ToolPickerView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
+    @EnvironmentObject var chatVM: ChatViewModel
     @State private var showChat = false
     
     var body: some View {
@@ -25,34 +26,44 @@ struct ToolPickerView: View {
                         .fontWeight(.medium)
                 }
                 
-                Button {
-                    withAnimation {
-                        canvasVM.showShapes = true
-                    }
-                } label: {
-                    Image(systemName: "triangle")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                }
+//                Button {
+//                    withAnimation {
+//                        canvasVM.showShapes = true
+//                    }
+//                } label: {
+//                    Image(systemName: "triangle")
+//                        .font(.title3)
+//                        .fontWeight(.medium)
+//                }
                 
-                Button {
-                    withAnimation {
-                        canvasVM.addText(at: CGPoint(x: 100, y: 100))
-                    }
-                } label: {
-                    Image(systemName: "character.textbox")
-                        .font(.title3)
-                        .fontWeight(.medium)
-                }
+//                Button {
+//                    withAnimation {
+//                        canvasVM.addText(at: CGPoint(x: 100, y: 100))
+//                    }
+//                } label: {
+//                    Image(systemName: "character.textbox")
+//                        .font(.title3)
+//                        .fontWeight(.medium)
+//                }
                 
                 Button {
                     withAnimation {
                         showChat = true
                     }
                 } label: {
-                    Image(systemName: "ellipsis.bubble")
-                        .font(.title3)
-                        .fontWeight(.medium)
+                    ZStack(alignment: .topTrailing) {
+                        Image(systemName: "ellipsis.bubble")
+                            .font(.title3)
+                            .fontWeight(.medium)
+                        
+                        Circle()
+                            .foregroundStyle(chatVM.hasNewMessages ? .red : .clear)
+                            .frame(width: 8, height: 8, alignment: .topTrailing)
+                            .offset(x: 5, y: -5)
+                    }
+                }
+                .onChange(of: chatVM.chatMessages) {
+                    chatVM.hasNewMessages = true
                 }
                 
                 Button {

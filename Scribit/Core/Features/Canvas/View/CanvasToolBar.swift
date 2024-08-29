@@ -14,7 +14,7 @@ struct CanvasToolBar: View {
     
     var body: some View {
         HStack {
-            if !canvasVM.isCollaborating {
+            if !canvasVM.isCollaborating && !canvasVM.toolSelected {
                 Button {
                     dismiss()
                     Task {
@@ -26,29 +26,31 @@ struct CanvasToolBar: View {
                         .foregroundStyle(.gray)
                         .padding(12)
                         .background(.white, in: Circle())
-                    
                 }
                 .frame(width: 120, alignment: .leading)
+            } else if !canvasVM.toolSelected {
+                    Button {
+                        Task {
+                            await canvasVM.unsubscribe()
+                        }
+                        canvasVM.isCollaborating = false
+                    } label: {
+                        HStack {
+                            Image(systemName: "person.line.dotted.person.fill")
+                            Text("End")
+                        }
+                        .font(.callout)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(.red, in: .capsule)
+                        .foregroundStyle(.white)
+                        .frame(width: 120, alignment: .leading)
+                        
+                    }
+                    .transition(.scale)
             } else {
-                Button {
-                    Task {
-                        await canvasVM.unsubscribe()
-                    }
-                    canvasVM.isCollaborating = false
-                } label: {
-                    HStack {
-                        Image(systemName: "person.line.dotted.person.fill")
-                        Text("End")
-                    }
-                    .font(.callout)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 8)
-                    .background(.red, in: .capsule)
-                    .foregroundStyle(.white)
-                    .frame(width: 120, alignment: .leading)
-
-                }
-                .transition(.scale)
+                Color.clear
+                    .frame(width: 120, height: 0, alignment: .leading)
             }
             
             Spacer()

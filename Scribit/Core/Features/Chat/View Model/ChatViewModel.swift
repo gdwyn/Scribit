@@ -13,6 +13,7 @@ class ChatViewModel: ObservableObject {
     @Published var loadingState: LoadingState = .none
     @Published var messageText: String = ""
     @Published var selectedMessage: UUID? = nil
+    @Published var hasNewMessages: Bool = false
     
     func fetchChatMessages(for canvasId: UUID) async {
         do {

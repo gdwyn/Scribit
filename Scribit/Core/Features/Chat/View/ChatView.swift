@@ -79,11 +79,9 @@ struct ChatView: View {
             await chatVM.subscribeToChatMessages(canvasId: canvasVM.currentCanvas.id.uuidString)
             chatVM.loadingState = .success
         }
-//        .onDisappear {
-//            Task {
-//                await chatVM.unsubscribe()
-//            }
-//        }
+        .onDisappear {
+            chatVM.hasNewMessages = false
+        }
     }
 }
 
