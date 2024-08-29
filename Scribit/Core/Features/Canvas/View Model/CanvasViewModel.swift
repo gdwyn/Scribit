@@ -25,6 +25,7 @@ class CanvasViewModel: ObservableObject {
     @Published var texts: [DraggableText] = []
     @Published var showShapes = false
     @Published var activeUsers: [Presence] = []
+    @Published var userColors: [Color] = [.blue, .green, .accentColor, .orange, .pink]
     
     @Published var selectedTextID: UUID? = nil
     @Published var editingText: String = ""
@@ -271,41 +272,37 @@ class CanvasViewModel: ObservableObject {
     }
     
     func trackPresence(for canvasId: UUID, currentUser: String) async {
-        do {
-            let channel = Supabase.client.channel("canvas:\(canvasId.uuidString)")
-            
-            await channel.subscribe()
-            
-            try await channel.track(Presence(id: UUID(), email: currentUser))
-            
-            let presenceChange = channel.presenceChange()
-            
-            Task {
-                for await presence in presenceChange {
-                    do {
-                        let joins = try presence.decodeJoins(as: Presence.self)
-                        let leaves = try presence.decodeLeaves(as: Presence.self)
-                        
-                        DispatchQueue.main.async {
-                            for join in joins {
-                                if !self.activeUsers.contains(where: { $0.email == join.email }) {
-                                    self.activeUsers.append(join)
-                                }
-                            }
-                            
-                            for leave in leaves {
-                                self.activeUsers.removeAll { $0.email == leave.email }
+        let channel = Supabase.client.channel("canvas:\(canvasId.uuidString)")
+        let presenceChange = channel.presenceChange()
+        await channel.subscribe()
+
+        Task {
+            for await presence in presenceChange {
+                do {
+                    let joins = try presence.decodeJoins(as: Presence.self)
+                    let leaves = try presence.decodeLeaves(as: Presence.self)
+                    
+                    DispatchQueue.main.async {
+                        for join in joins {
+                            if !self.activeUsers.contains(where: { $0.email == join.email }) {
+                                self.activeUsers.append(join)
                             }
                         }
-                    } catch {
-                        print("Error decoding presence: \(error)")
+                        
+                        for leave in leaves {
+                            self.activeUsers.removeAll { $0.email == leave.email }
+                        }
                     }
+                } catch {
+                    print("Error decoding presence: \(error)")
                 }
             }
-            
-        } catch {
-            print("Error setting up presence tracking: \(error)")
         }
+        
+        Task {
+            try await channel.track(Presence(id: UUID(), email: currentUser))
+        }
+        
     }
 
     func stopTrackingPresence(for canvasId: UUID) async {

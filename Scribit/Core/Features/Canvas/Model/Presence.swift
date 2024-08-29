@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Presence: Codable, Identifiable {
+struct Presence: Codable, Identifiable, Equatable {
     let id: UUID
     let email: String
 }

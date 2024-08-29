@@ -81,19 +81,27 @@ struct CanvasView: View {
                 
                 VStack {
                     CanvasToolBar()
-                    
-                    Button("test") {
-                        print(canvasVM.activeUsers)
-                    }
-                    
+                  
                     Spacer()
                     
                     if canvasVM.showShapes {
                         ShapeSelectView()
                     } else {
                         VStack {
-                            ForEach(canvasVM.activeUsers) { user in
-                                Text(user.email)
+                            HStack(spacing: -10) {
+                                ForEach(canvasVM.activeUsers) { user in
+                                    if let userInitial = user.email.first {
+                                        Text(String(userInitial))
+                                            .font(.headline)
+                                            .foregroundStyle(.white)
+                                            .padding(16)
+                                            .background(Color.mint, in: Circle())
+                                            .overlay(
+                                                Circle().stroke(Color.white, lineWidth: 3)
+                                               )
+                                            .animation(.spring, value: canvasVM.activeUsers)                                    
+                                    }
+                                }
                             }
                             ToolPickerView()
                         }
@@ -114,16 +122,9 @@ struct CanvasView: View {
             .navigationBarBackButtonHidden()
         }
         .task {
+            await canvasVM.trackPresence(for: canvasVM.currentCanvas.id, currentUser: authVM.appUser?.email ?? "User")
             await canvasVM.subscribeToCanvas(canvasId: canvasVM.currentCanvas.id)
             canvasVM.setUndoManager(undoManager)
-        }
-        .onAppear {
-            Task {
-                print("starting ///")
-                await canvasVM.trackPresence(for: canvasVM.currentCanvas.id, currentUser: authVM.appUser?.email ?? "User")
-                print("done")
-
-            }
         }
         .onDisappear {
             Task {

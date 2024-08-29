@@ -17,6 +17,9 @@ struct CanvasToolBar: View {
             if !canvasVM.isCollaborating {
                 Button {
                     dismiss()
+                    Task {
+                        await canvasVM.fetchCanvases()
+                    }
                 } label: {
                     Image(systemName: "chevron.left")
                         .font(.callout)
@@ -53,12 +56,18 @@ struct CanvasToolBar: View {
             HStack(spacing: 15) {
                 Button {
                     undoManager?.undo()
+                    Task {
+                        await canvasVM.updateCanvas(canvas: canvasVM.currentCanvas)
+                    }
                 } label: {
                     Image(systemName: "arrow.uturn.backward")
                 }
                 
                 Button {
                     undoManager?.redo()
+                    Task {
+                        await canvasVM.updateCanvas(canvas: canvasVM.currentCanvas)
+                    }
                 } label: {
                     Image(systemName: "arrow.uturn.forward")
                 }
@@ -77,7 +86,6 @@ struct CanvasToolBar: View {
                     }
                     Task {
                         await canvasVM.updateCanvas(canvas: canvasVM.currentCanvas)
-                        await canvasVM.fetchCanvases()
                     }
                 } label: {
                     Text("Done")
