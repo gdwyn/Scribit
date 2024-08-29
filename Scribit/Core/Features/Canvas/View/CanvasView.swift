@@ -11,6 +11,8 @@ import SwiftUI
 struct CanvasView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
     @EnvironmentObject var chatVM: ChatViewModel
+    @EnvironmentObject var authVM: AuthViewModel
+
     @State private var currentLocation: CGPoint = .init(x: 40, y: 80)
     
     @Environment(\.dismiss) private var dismiss
@@ -80,12 +82,21 @@ struct CanvasView: View {
                 VStack {
                     CanvasToolBar()
                     
+                    Button("test") {
+                        print(canvasVM.activeUsers)
+                    }
+                    
                     Spacer()
                     
                     if canvasVM.showShapes {
                         ShapeSelectView()
                     } else {
-                        ToolPickerView()
+                        VStack {
+                            ForEach(canvasVM.activeUsers) { user in
+                                Text(user.email)
+                            }
+                            ToolPickerView()
+                        }
                     }
         
                 }
@@ -106,9 +117,18 @@ struct CanvasView: View {
             await canvasVM.subscribeToCanvas(canvasId: canvasVM.currentCanvas.id)
             canvasVM.setUndoManager(undoManager)
         }
+        .onAppear {
+            Task {
+                print("starting ///")
+                await canvasVM.trackPresence(for: canvasVM.currentCanvas.id, currentUser: authVM.appUser?.email ?? "User")
+                print("done")
+
+            }
+        }
         .onDisappear {
             Task {
                 await canvasVM.unsubscribe()
+                await canvasVM.stopTrackingPresence(for: canvasVM.currentCanvas.id)
             }
         }
        

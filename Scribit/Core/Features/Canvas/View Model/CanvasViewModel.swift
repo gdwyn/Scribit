@@ -24,6 +24,7 @@ class CanvasViewModel: ObservableObject {
     @Published var shapes: [DraggableShape] = []
     @Published var texts: [DraggableText] = []
     @Published var showShapes = false
+    @Published var activeUsers: [Presence] = []
     
     @Published var selectedTextID: UUID? = nil
     @Published var editingText: String = ""
@@ -158,7 +159,6 @@ class CanvasViewModel: ObservableObject {
                     .eq("id", value: canvas.id.uuidString)
                     .execute()
                 
-                // After successful deletion, remove the canvas from the list
                 await MainActor.run {
                     withAnimation {
                         self.canvasList.removeAll { $0.id == canvas.id }
@@ -269,7 +269,53 @@ class CanvasViewModel: ObservableObject {
             print("Error fetching canvas by ID: \(error)")
         }
     }
+    
+    func trackPresence(for canvasId: UUID, currentUser: String) async {
+        do {
+            let channel = Supabase.client.channel("canvas:\(canvasId.uuidString)")
+            
+            await channel.subscribe()
+            
+            try await channel.track(Presence(id: UUID(), email: currentUser))
+            
+            let presenceChange = channel.presenceChange()
+            
+            Task {
+                for await presence in presenceChange {
+                    do {
+                        let joins = try presence.decodeJoins(as: Presence.self)
+                        let leaves = try presence.decodeLeaves(as: Presence.self)
+                        
+                        DispatchQueue.main.async {
+                            for join in joins {
+                                if !self.activeUsers.contains(where: { $0.email == join.email }) {
+                                    self.activeUsers.append(join)
+                                }
+                            }
+                            
+                            for leave in leaves {
+                                self.activeUsers.removeAll { $0.email == leave.email }
+                            }
+                        }
+                    } catch {
+                        print("Error decoding presence: \(error)")
+                    }
+                }
+            }
+            
+        } catch {
+            print("Error setting up presence tracking: \(error)")
+        }
+    }
 
+    func stopTrackingPresence(for canvasId: UUID) async {
+        let channel = Supabase.client.channel("canvas:\(canvasId.uuidString)")
+        await channel.unsubscribe()
+        DispatchQueue.main.async {
+            self.activeUsers.removeAll()
+        }
+    }
+    
     func saveDrawing() {
         let drawingImage = currentCanvas.canvas.drawing.image(from: currentCanvas.canvas.drawing.bounds, scale: 1.0)
         UIImageWriteToSavedPhotosAlbum(drawingImage, nil, nil, nil)

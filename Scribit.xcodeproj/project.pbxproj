@@ -51,6 +51,7 @@
 		CEFACD7F2C7704CE00BF63F1 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFACD7E2C7704CE00BF63F1 /* ChatView.swift */; };
 		CEFACD812C77052700BF63F1 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFACD802C77052700BF63F1 /* ChatViewModel.swift */; };
 		CEFACD832C77125900BF63F1 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFACD822C77125800BF63F1 /* ChatBubble.swift */; };
+		CEFE909C2C8044C000C6BEA0 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE909B2C8044C000C6BEA0 /* Presence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,7 @@
 		CEFACD7E2C7704CE00BF63F1 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		CEFACD802C77052700BF63F1 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		CEFACD822C77125800BF63F1 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
+		CEFE909B2C8044C000C6BEA0 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -316,6 +318,7 @@
 			children = (
 				CEF077092C63D39B00FA01F3 /* Draggables.swift */,
 				CEB03B992C68EB000006B25E /* Canvas.swift */,
+				CEFE909B2C8044C000C6BEA0 /* Presence.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -478,6 +481,7 @@
 				CE9987D62C6D2DA000685D3A /* AppUser.swift in Sources */,
 				CE9987D32C6D2BD400685D3A /* CanvasCard.swift in Sources */,
 				CEB7E9D52C62893F00B92530 /* CanvasToolBar.swift in Sources */,
+				CEFE909C2C8044C000C6BEA0 /* Presence.swift in Sources */,
 				CEEFE5622C64FF25000D5BAF /* LoginView.swift in Sources */,
 				CEEFE5642C650769000D5BAF /* SignupView.swift in Sources */,
 				CE2E15C32C643B7F006C3C7D /* Shapes.swift in Sources */,
