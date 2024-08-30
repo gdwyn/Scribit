@@ -62,9 +62,6 @@ struct ToolPickerView: View {
                             .offset(x: 5, y: -5)
                     }
                 }
-                .onChange(of: chatVM.chatMessages) {
-                    chatVM.hasNewMessages = true
-                }
                 
                 Button {
                     withAnimation {

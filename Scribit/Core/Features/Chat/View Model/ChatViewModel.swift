@@ -14,6 +14,7 @@ class ChatViewModel: ObservableObject {
     @Published var messageText: String = ""
     @Published var selectedMessage: UUID? = nil
     @Published var hasNewMessages: Bool = false
+    @Published var subscribedToChats: Bool = false
     
     func fetchChatMessages(for canvasId: UUID) async {
         do {
@@ -113,6 +114,7 @@ class ChatViewModel: ObservableObject {
                         
                         DispatchQueue.main.async {
                             self.chatMessages.append(newMessage)
+                            self.hasNewMessages = true
                         }
                     }
                 default:

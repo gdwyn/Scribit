@@ -11,6 +11,7 @@ struct CanvasToolBar: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.undoManager) private var undoManager
     @EnvironmentObject var canvasVM: CanvasViewModel
+    @EnvironmentObject var chatVM: ChatViewModel
     
     var body: some View {
         HStack {
@@ -20,6 +21,7 @@ struct CanvasToolBar: View {
                     Task {
                         await canvasVM.fetchCanvases()
                     }
+                    chatVM.subscribedToChats = false
                 } label: {
                     Image(systemName: "chevron.left")
                         .font(.callout)

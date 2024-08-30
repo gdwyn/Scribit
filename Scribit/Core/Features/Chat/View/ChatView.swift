@@ -76,8 +76,14 @@ struct ChatView: View {
         .task {
             chatVM.loadingState = .loading
             await chatVM.fetchChatMessages(for: canvasVM.currentCanvas.id)
-            await chatVM.subscribeToChatMessages(canvasId: canvasVM.currentCanvas.id.uuidString)
+            if !chatVM.subscribedToChats {
+                await chatVM.subscribeToChatMessages(canvasId: canvasVM.currentCanvas.id.uuidString)
+            }
+            chatVM.subscribedToChats = true
             chatVM.loadingState = .success
+        }
+        .onAppear {
+            chatVM.hasNewMessages = false
         }
         .onDisappear {
             chatVM.hasNewMessages = false
