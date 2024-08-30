@@ -51,6 +51,7 @@
 		CEFACD7F2C7704CE00BF63F1 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFACD7E2C7704CE00BF63F1 /* ChatView.swift */; };
 		CEFACD812C77052700BF63F1 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFACD802C77052700BF63F1 /* ChatViewModel.swift */; };
 		CEFACD832C77125900BF63F1 /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFACD822C77125800BF63F1 /* ChatBubble.swift */; };
+		CEFCB75C2C81A69300CC7891 /* SplashView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFCB75B2C81A69300CC7891 /* SplashView.swift */; };
 		CEFE909C2C8044C000C6BEA0 /* Presence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEFE909B2C8044C000C6BEA0 /* Presence.swift */; };
 /* End PBXBuildFile section */
 
@@ -94,6 +95,7 @@
 		CEFACD7E2C7704CE00BF63F1 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		CEFACD802C77052700BF63F1 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
 		CEFACD822C77125800BF63F1 /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
+		CEFCB75B2C81A69300CC7891 /* SplashView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashView.swift; sourceTree = "<group>"; };
 		CEFE909B2C8044C000C6BEA0 /* Presence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Presence.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -205,6 +207,7 @@
 		CE6C914B2C61A348000A68EF /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				CEFCB75A2C81A67900CC7891 /* Splash */,
 				CEEFE5592C64F641000D5BAF /* Auth */,
 				CE6C91412C61A348000A68EF /* Home */,
 				CEF50A382C6E238900138EA8 /* Profile */,
@@ -376,6 +379,14 @@
 			path = "View Model";
 			sourceTree = "<group>";
 		};
+		CEFCB75A2C81A67900CC7891 /* Splash */ = {
+			isa = PBXGroup;
+			children = (
+				CEFCB75B2C81A69300CC7891 /* SplashView.swift */,
+			);
+			path = Splash;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -470,6 +481,7 @@
 				CE4EE0392C61DD1A00B9AB61 /* DottedBackgroundView.swift in Sources */,
 				CE6C91612C61A878000A68EF /* DrawingView.swift in Sources */,
 				CEF0770A2C63D39B00FA01F3 /* Draggables.swift in Sources */,
+				CEFCB75C2C81A69300CC7891 /* SplashView.swift in Sources */,
 				CEF50A352C6E114200138EA8 /* StartCollabView.swift in Sources */,
 				CEE7A8792C77A4710053648A /* ChatTextField.swift in Sources */,
 				CEF50A3B2C6E243A00138EA8 /* ProfileView.swift in Sources */,

@@ -82,9 +82,6 @@ struct ChatView: View {
             chatVM.subscribedToChats = true
             chatVM.loadingState = .success
         }
-        .onAppear {
-            chatVM.hasNewMessages = false
-        }
         .onDisappear {
             chatVM.hasNewMessages = false
         }

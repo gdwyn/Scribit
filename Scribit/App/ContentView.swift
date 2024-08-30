@@ -9,18 +9,18 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject var authVM: AuthViewModel
+    @State private var showSplashScreen = true
 
     var body: some View {
-        ZStack {
-            if authVM.appUser != nil {
-                HomeView()
-            } else {
-                LoginView()
-            }
-        }
-        .onAppear {
-            Task {
-                authVM.appUser = try await Supabase.shared.getCurrentSession()
+        if showSplashScreen {
+            SplashView(showSplashScreen: $showSplashScreen)
+        } else {
+            ZStack {
+                if authVM.appUser != nil {
+                    HomeView()
+                } else {
+                    LoginView()
+                }
             }
         }
     }
