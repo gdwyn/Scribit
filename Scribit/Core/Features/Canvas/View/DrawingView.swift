@@ -10,51 +10,40 @@ import SwiftUI
 
 struct DrawingView: UIViewRepresentable {
     @EnvironmentObject var canvasVM: CanvasViewModel
-
-    func makeUIView(context: Context) -> UIScrollView {
-        let scrollView = UIScrollView()
-        scrollView.delegate = context.coordinator
-        scrollView.minimumZoomScale = 1.0
-        scrollView.maximumZoomScale = 3.0
-        scrollView.bouncesZoom = true
-
-        scrollView.addSubview(canvasVM.currentCanvas.canvas)
-        canvasVM.currentCanvas.canvas.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            canvasVM.currentCanvas.canvas.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            canvasVM.currentCanvas.canvas.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            canvasVM.currentCanvas.canvas.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            canvasVM.currentCanvas.canvas.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            canvasVM.currentCanvas.canvas.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            canvasVM.currentCanvas.canvas.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
-        ])
-
-        updateDrawingPolicy(for: canvasVM.currentCanvas.canvas)
-
-    return scrollView
-  }
-
-  func updateUIView(_ uiView: UIScrollView, context: Context) {
-      updateDrawingPolicy(for: canvasVM.currentCanvas.canvas)
-  }
-
-  func makeCoordinator() -> Coordinator {
-      Coordinator(canvas: $canvasVM.currentCanvas.canvas)
-  }
-
-  private func updateDrawingPolicy(for canvas: PKCanvasView) {
-      canvas.drawingPolicy = canvasVM.toolSelected ? .anyInput : .pencilOnly
-  }
-
-  class Coordinator: NSObject, UIScrollViewDelegate {
-    @Binding var canvas: PKCanvasView
-
-    init(canvas: Binding<PKCanvasView>) {
-      _canvas = canvas
+    
+    class Coordinator: NSObject, PKCanvasViewDelegate {
+        var canvas: PKCanvasView
+        
+        init(canvas: PKCanvasView) {
+            self.canvas = canvas
+            super.init()
+            canvas.delegate = self
+        }
     }
-
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-      return canvas
+    
+    func makeUIView(context: Context) -> PKCanvasView {
+        let canvasView = canvasVM.currentCanvas.canvas
+        
+        canvasView.drawingPolicy = .pencilOnly
+        canvasView.contentSize = CGSize(width: 2000, height: 4000)
+        canvasView.drawingPolicy = .anyInput
+        canvasView.minimumZoomScale = 0.2
+        canvasView.maximumZoomScale = 4.0
+        canvasView.backgroundColor = .clear
+        canvasView.contentInset = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
+        
+        let initialOffset = CGPoint(x: (canvasView.contentSize.width - canvasView.bounds.width) / 2.5,
+                                    y: (canvasView.contentSize.height - canvasView.bounds.height) / 2.5)
+        canvasView.contentOffset = initialOffset
+                
+        return canvasView
     }
-  }
+    
+    func updateUIView(_ uiView: PKCanvasView, context: Context) {
+        uiView.drawingPolicy = canvasVM.toolSelected ? .anyInput : .pencilOnly
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(canvas: canvasVM.currentCanvas.canvas)
+    }
 }

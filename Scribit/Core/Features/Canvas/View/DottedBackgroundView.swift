@@ -14,6 +14,7 @@ struct DottedBackgroundView: View {
     var body: some View {
         ZStack {
             DrawingView()
+                .ignoresSafeArea()
             
             GeometryReader { geometry in
                 Path { path in

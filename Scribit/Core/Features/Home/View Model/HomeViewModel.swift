@@ -18,6 +18,7 @@ class HomeViewModel: ObservableObject {
     @Published var isNavigatingToCanvasView = false
     @Published var showCreateNew = false
     @Published var showProfile = false
+    @Published var isJoining = false
 
     // create
     func createCanvas(title: String) async {

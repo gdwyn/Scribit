@@ -22,6 +22,7 @@ struct CanvasView: View {
         NavigationStack {
             ZStack {
                 DottedBackgroundView(dotColor: Color.accent.opacity(0.2))
+                   // .contentSize = CGSize(width: 1500, height: 1000)
                 
                 VStack {
                     CanvasToolBar()

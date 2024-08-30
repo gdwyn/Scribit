@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CollabView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
-    
+    @EnvironmentObject var homeVM: HomeViewModel
+
     @State private var canvasId = ""
     
     var body: some View {
@@ -48,18 +49,24 @@ struct CollabView: View {
                             Button {
                                 if let canvasId = UUID(uuidString: canvasId) {
                                     Task {
+                                        homeVM.isJoining.toggle()
                                         await canvasVM.fetchCanvasById(canvasId: canvasId)
                                         canvasVM.isCollaborating = true
+                                        homeVM.isJoining.toggle()
                                     }
                                 }
                             } label: {
-                                Text("Join")
-                                    .padding(.horizontal, 12)
-                                    .padding(.vertical, 8)
-                                    .background(.accent, in: .capsule)
-                                    .foregroundStyle(.white)
-                                    .opacity(!canvasId.isValidUUID() ? 0.5 : 1)
-                                
+                                switch homeVM.isJoining {
+                                case true:
+                                    ProgressView("Joinig...")
+                                case false:
+                                    Text("Join")
+                                        .padding(.horizontal, 12)
+                                        .padding(.vertical, 8)
+                                        .background(.accent, in: .capsule)
+                                        .foregroundStyle(.white)
+                                        .opacity(!canvasId.isValidUUID() ? 0.5 : 1)
+                                }
                             }
                             .disabled(!canvasId.isValidUUID())
                         
