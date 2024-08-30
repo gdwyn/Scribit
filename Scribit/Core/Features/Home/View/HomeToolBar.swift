@@ -37,7 +37,7 @@ struct HomeToolBar: ToolbarContent {
                 }
             }
             
-            if !canvasVM.canvasList.isEmpty {
+            if !homeVM.canvasList.isEmpty {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button {
                         homeVM.showCreateNew = true

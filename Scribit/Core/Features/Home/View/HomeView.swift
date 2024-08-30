@@ -16,16 +16,16 @@ struct HomeView: View {
         NavigationStack {
             VStack(alignment: .leading) {
                 
-                switch canvasVM.loadingState {
+                switch homeVM.loadingState {
                 case .none:
                     EmptyView()
                 case .loading:
                     ProgressView()
                 case .success:
-                    if !canvasVM.canvasList.isEmpty {
+                    if !homeVM.canvasList.isEmpty {
                         ScrollView(showsIndicators: false) {
                             LazyVGrid (columns: homeVM.columns) {
-                                ForEach(canvasVM.canvasList.reversed()) { canvas in
+                                ForEach(homeVM.canvasList.reversed()) { canvas in
                                     CanvasCard(canvas: canvas)
                                 }
                             }
@@ -54,14 +54,11 @@ struct HomeView: View {
                     .presentationDetents([.medium])
                     .presentationDragIndicator(.visible)
             }
-            .toolbar {HomeToolBar()}
+            .toolbar { HomeToolBar() }
             .refreshable {
-                await canvasVM.fetchCanvases()
+                await homeVM.fetchCanvases()
             }
             
-        }
-        .task {
-            await canvasVM.fetchCanvases()
         }
     }
 }

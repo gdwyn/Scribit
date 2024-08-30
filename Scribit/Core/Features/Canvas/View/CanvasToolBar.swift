@@ -11,6 +11,7 @@ struct CanvasToolBar: View {
     @Environment(\.dismiss) private var dismiss
     @Environment(\.undoManager) private var undoManager
     @EnvironmentObject var canvasVM: CanvasViewModel
+    @EnvironmentObject var homeVM: HomeViewModel
     @EnvironmentObject var chatVM: ChatViewModel
     
     var body: some View {
@@ -19,7 +20,7 @@ struct CanvasToolBar: View {
                 Button {
                     dismiss()
                     Task {
-                        await canvasVM.fetchCanvases()
+                        await homeVM.fetchCanvases()
                     }
                     chatVM.subscribedToChats = false
                 } label: {
@@ -61,7 +62,7 @@ struct CanvasToolBar: View {
                 Button {
                     undoManager?.undo()
                     Task {
-                        await canvasVM.updateCanvas(canvas: canvasVM.currentCanvas)
+                        await homeVM.updateCanvas(canvas: canvasVM.currentCanvas)
                     }
                 } label: {
                     Image(systemName: "arrow.uturn.backward")
@@ -70,7 +71,7 @@ struct CanvasToolBar: View {
                 Button {
                     undoManager?.redo()
                     Task {
-                        await canvasVM.updateCanvas(canvas: canvasVM.currentCanvas)
+                        await homeVM.updateCanvas(canvas: canvasVM.currentCanvas)
                     }
                 } label: {
                     Image(systemName: "arrow.uturn.forward")
@@ -89,7 +90,7 @@ struct CanvasToolBar: View {
                         canvasVM.hideToolPicker()
                     }
                     Task {
-                        await canvasVM.updateCanvas(canvas: canvasVM.currentCanvas)
+                        await homeVM.updateCanvas(canvas: canvasVM.currentCanvas)
                     }
                 } label: {
                     Text("Done")

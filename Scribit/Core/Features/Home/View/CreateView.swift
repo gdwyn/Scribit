@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CreateView: View {
     @EnvironmentObject var canvasVM: CanvasViewModel
+    @EnvironmentObject var homeVM: HomeViewModel
     @Environment(\.dismiss) private var dismiss
 
     @State private var canvasTitle = ""
@@ -32,7 +33,7 @@ struct CreateView: View {
                     
                     Button {
                         Task {
-                            await canvasVM.createCanvas(title: canvasTitle)
+                            await homeVM.createCanvas(title: canvasTitle)
                         }
                         dismiss()
                     } label: {

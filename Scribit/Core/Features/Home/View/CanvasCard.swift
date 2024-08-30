@@ -42,7 +42,7 @@ struct CanvasCard: View {
                     Spacer()
                     
                     Button {
-                        canvasVM.deleteCanvas(canvas: canvas)
+                        homeVM.deleteCanvas(canvas: canvas)
                     } label: {
                         Image(systemName: "xmark.bin.fill")
                             .padding(8)
