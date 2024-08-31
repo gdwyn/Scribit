@@ -40,24 +40,38 @@ struct LoginView: View {
                     AppPasswordField(title: "Password", placeHolder: "Enter your password", password: $password)
                 }
                 
-                VStack(spacing: 18) {
+                VStack(spacing: 12) {
                     Button {
                         Task {
-                            do {
-                                let appUser = try await authVM.logIn(email: email, password: password)
-                                authVM.appUser = appUser
-                            } catch {
-                                print("issue with sign in")
-                            }
+                            await authVM.logIn(email: email, password: password)
                         }
                     } label: {
-                        Text("Log in")
-                            .padding()
-                            .foregroundStyle(.white)
-                            .frame(maxWidth: .infinity)
-                            .background(.accent, in: RoundedRectangle(cornerRadius: 18))
-                        
+                            switch authVM.loadingState {
+                            case .loading:
+                                ProgressView()
+                                    .padding()
+                                    .foregroundStyle(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .background(.accent, in: RoundedRectangle(cornerRadius: 18))
+                                
+                            default:
+                                Text("Log in")
+                                    .padding()
+                                    .foregroundStyle(.white)
+                                    .frame(maxWidth: .infinity)
+                                    .background(.accent, in: RoundedRectangle(cornerRadius: 18))
+                                
+                            }
                     }
+                    
+                    switch authVM.loadingState {
+                    case .error(let errorMessage):
+                        Text(errorMessage)
+                            .foregroundStyle(.accent)
+                    default:
+                        EmptyView()
+                    }
+                                        
                     HStack {
                         Text("Don't have an account?")
                             .foregroundStyle(.gray)
@@ -69,6 +83,7 @@ struct LoginView: View {
                             SignupView()
                         }
                     }
+                    .padding(.top, 4)
                 }
             }
             .padding()

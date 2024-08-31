@@ -41,7 +41,6 @@ struct SplashView: View {
         .onAppear {
             Task {
                 authVM.appUser = try await Supabase.shared.getCurrentSession()
-                await homeVM.fetchCanvases()
             }
             withAnimation(.spring(duration: 1.5)) {
                 showFull = true

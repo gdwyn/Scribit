@@ -44,6 +44,9 @@ struct HomeView: View {
                 
             }
             .padding(.horizontal)
+            .task {
+                await homeVM.fetchCanvases()
+            }
             .sheet(isPresented: $homeVM.showCreateNew) {
                 CreateView()
                     .presentationDetents([.medium])

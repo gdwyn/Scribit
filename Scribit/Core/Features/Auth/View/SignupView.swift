@@ -13,65 +13,85 @@ struct SignupView: View {
     
     @State private var email = ""
     @State private var password = ""
-        
+    
     var body: some View {
         ScrollView(showsIndicators: false) {
-        VStack(alignment: .leading, spacing: 24) {
-            VStack(alignment: .leading, spacing: 14) {
-                Image("scribitlogo")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 58, height: 58)
-                
-                VStack(alignment: .leading, spacing: 6) {
+            VStack(alignment: .leading, spacing: 24) {
+                VStack(alignment: .leading, spacing: 14) {
+                    Image("scribitlogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 58, height: 58)
                     
-                    Text("Create an account")
-                        .font(.title)
-                    
-                    Text("Enter your details to sign up")
-                        .foregroundStyle(.gray)
+                    VStack(alignment: .leading, spacing: 6) {
+                        
+                        Text("Create an account")
+                            .font(.title)
+                        
+                        Text("Enter your details to sign up")
+                            .foregroundStyle(.gray)
+                    }
                 }
-            }
-            .padding(.bottom, 18)
-            
-            VStack(spacing: 20) {
-                AppTextField(title: "Email", placeHolder: "Enter your email", text: $email)
+                .padding(.bottom, 18)
                 
-                AppPasswordField(title: "Password", placeHolder: "Enter your password", password: $password)
-            }
-            
-            VStack(spacing: 18) {
-                Button {
-                    Task {
-                        do {
-                            let appUser = try await authVM.signUp(email: email, password: password)
-                            authVM.appUser = appUser
-                            dismiss()
-                        } catch {
-                            print("issue with sign up")
+                VStack(spacing: 20) {
+                    AppTextField(title: "Email", placeHolder: "Enter your email", text: $email)
+                    
+                    AppPasswordField(title: "Password", placeHolder: "Enter your password", password: $password)
+                }
+                
+                VStack(spacing: 12) {
+                    Button {
+                        Task {
+                            await authVM.signUp(email: email, password: password)
+                        }
+                    } label: {
+                        switch authVM.loadingState {
+                        case .loading:
+                            ProgressView()
+                                .padding()
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .background(.accent, in: RoundedRectangle(cornerRadius: 18))
+                            
+                        default:
+                            Text("Sign up")
+                                .padding()
+                                .foregroundStyle(.white)
+                                .frame(maxWidth: .infinity)
+                                .background(.accent, in: RoundedRectangle(cornerRadius: 18))
+                            
                         }
                     }
-                } label: {
-                    Text("Sign up")
-                        .padding()
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .background(.accent, in: RoundedRectangle(cornerRadius: 18))
                     
-                }
-                HStack {
-                    Text("Already have an account?")
-                        .foregroundStyle(.gray)
-                    
-                    Button("Log in") {
-                        dismiss()
+                    switch authVM.loadingState {
+                    case .error(let errorMessage):
+                        Text(errorMessage)
+                            .foregroundStyle(.accent)
+                    default:
+                        EmptyView()
                     }
+                    
+                    HStack {
+                        Text("Already have an account?")
+                            .foregroundStyle(.gray)
+                        
+                        Button("Log in") {
+                            dismiss()
+                        }
+                    }
+                    .padding(.top, 4)
                     
                 }
             }
+            .padding()
         }
-        .padding()
-    }
+        .onAppear {
+            authVM.loadingState = .none
+        }
+        .onDisappear{
+            authVM.loadingState = .none
+        }
     }
 }
 
