@@ -10,16 +10,23 @@ import SwiftUI
 struct HomeToolBar: ToolbarContent {
     @EnvironmentObject var homeVM: HomeViewModel
     @EnvironmentObject var canvasVM: CanvasViewModel
+    @EnvironmentObject var authVM: AuthViewModel
 
     var body: some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Button {
                 homeVM.showProfile = true
             } label: {
-                Image("userprofile")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 38)
+                if let userInitial = authVM.appUser?.email?.first {
+                    Text(String(userInitial))
+                        .font(.headline)
+                        .padding(14)
+                        .foregroundStyle(.dark)
+                        .background(.clear, in: Circle())
+                        .overlay(
+                            Circle().stroke(.gray.opacity(0.5), lineWidth: 0.5)
+                           )
+                }
             }
         }
         

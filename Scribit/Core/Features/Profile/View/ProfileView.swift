@@ -15,10 +15,15 @@ struct ProfileView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 14) {
-                Image("userprofile")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 48)
+                if let userInitial = authVM.appUser?.email?.first {
+                    Text(String(userInitial))
+                        .font(.headline)
+                        .padding(20)
+                        .background(.clear, in: Circle())
+                        .overlay(
+                            Circle().stroke(.gray.opacity(0.5), lineWidth: 0.5)
+                           )
+                }
                 
                 VStack(spacing: 8) {
                     Text(authVM.appUser?.email ?? "user")

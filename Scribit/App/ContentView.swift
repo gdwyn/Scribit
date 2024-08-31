@@ -16,9 +16,10 @@ struct ContentView: View {
             SplashView(showSplashScreen: $showSplashScreen)
         } else {
             ZStack {
-                if authVM.appUser != nil {
+                switch authVM.appUser != nil {
+                case true:
                     HomeView()
-                } else {
+                case false:
                     LoginView()
                 }
             }

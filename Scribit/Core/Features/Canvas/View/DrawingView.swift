@@ -35,7 +35,7 @@ struct DrawingView: UIViewRepresentable {
         let initialOffset = CGPoint(x: (canvasView.contentSize.width - canvasView.bounds.width) / 2.5,
                                     y: (canvasView.contentSize.height - canvasView.bounds.height) / 2.5)
         canvasView.contentOffset = initialOffset
-                
+        
         return canvasView
     }
     
