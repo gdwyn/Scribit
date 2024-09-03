@@ -3,16 +3,16 @@
 
 # Scribit
 
-Scribit is a feature-rich sketch pad app built with SwiftUI, leveraging the power of PencilKit to provide a natural and responsive drawing experience. 
-The app allows users to draw add draggable shapes, draggable text, and enjoy a fully functional undo/redo system. 
-This project serves as a great example of integrating UIKit components like PencilKit with SwiftUI for a modern iOS application.
+Scribit is a collaborative sketch pad app built with SwiftUI, leveraging the power of PencilKit to provide a natural and responsive drawing experience. 
+The app allows users to draw collaboratively and message in real-time.
 
 ## Features
 
 - **Login and sign up:** This app uses supabase authentication to log in and sign up users.
-- **Drawing Tools:** Use the PencilKit drawing tools with a custom tool picker interface.
+- **Drawing Tools:** Uses the PencilKit drawing tools with a custom tool picker interface.
 - **Collaboration:** Scribit allows users collaborate in real-time by joining a canvas or by sharing theirs.
-- **Shapes and Texts:** Add and drag shapes or text around the canvas with ease.
+- **In-app messaging:** This app allows user to have a chat with people on their canvas.
+- **Canvas presence tracking:** Users can see who is on their canvas and can see when they leave.
 - **Undo/Redo Support:** Comprehensive undo/redo functionality for all canvas actions.
 - **Zoom & Pan:** Utilize pinch-to-zoom and pan functionality for a closer look at your drawings.
 - **Save canvas to gallery:** Scribit allows users save their drawings as images to their gallery.
@@ -23,7 +23,7 @@ This project serves as a great example of integrating UIKit components like Penc
 
 ## Demo video
 
-https://github.com/user-attachments/assets/ff0f7bc6-f8d0-4d98-af2b-ee1411464ee0
+[Watch demo] on X (https://x.com/gdwyn_/status/1830948508834136560)
 
 ## Installation
 
