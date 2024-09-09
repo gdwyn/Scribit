@@ -23,7 +23,7 @@ The app allows users to draw collaboratively and message in real-time.
 
 ## Demo video
 
-[Watch demo] on X (https://x.com/gdwyn_/status/1830948508834136560)
+[Watch demo](https://x.com/gdwyn_/status/1830948508834136560)  on X 
 
 ## Installation
 
